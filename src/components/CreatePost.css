@@ -1,0 +1,28 @@
+.form-container {
+  display: grid;
+  gap: 20px;
+  width: 100%;
+}
+
+.form-container > * {
+  width: min-content;
+}
+
+.label-input-container {
+  width: 100%;
+}
+
+.markdown-container {
+  border-radius: 5px;
+  border: 1px solid #ccc;
+  padding: 10px;
+  margin-top: 10px;
+  min-height: 100px;
+  overflow: auto;
+}
+
+.button-group {
+  display: flex;
+  flex-direction: row;
+  gap: 10px;
+}

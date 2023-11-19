@@ -1,0 +1,12 @@
+.user-list-item-container {
+  display: flex;
+  flex-direction: row;
+  gap: 20px;
+  align-items: center;
+}
+
+.avator-container > img {
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+}

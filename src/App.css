@@ -1,0 +1,18 @@
+.main-container {
+  display: grid;
+  grid-template-columns: 275px minmax(0, 1fr);
+  grid-template-areas: "navbar content-body";
+  padding: 0 20%;
+  height: 100vh;
+}
+
+.navbar-container {
+  grid-area: navbar;
+  border-right: solid 2px #f3f6f9;
+}
+
+.content-body-container {
+  grid-area: content-body;
+  max-height: 100vh;
+  /* overflow-y: auto; */
+}

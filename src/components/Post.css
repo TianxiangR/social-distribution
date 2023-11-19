@@ -1,0 +1,46 @@
+.avatar > img {
+  height: 40px;
+  width: 40px;
+  border-radius: 50%;
+}
+
+.post-container {
+  padding: 8px 16px;
+  align-items: start;
+  display: flex;
+  flex-direction: row;
+  border: solid 2px #f3f6f9;
+  position: relative;
+}
+
+.create-post-container {
+  padding: 20px 30px;
+  border: solid 3px #a1a1a1;
+}
+
+.setting-container {
+  position: absolute;
+  right: 0;
+  top: 0;
+  padding: 8px;
+}
+
+.content-container {
+  display: flex;
+  flex-direction: column;
+  padding: 0 10px;
+  width: -webkit-fill-available;
+}
+
+/* how to evenly distribute elements in a div next to each other? */
+/* source: https://stackoverflow.com/questions/7245018/how-to-evenly-distribute-elements-in-a-div-next-to-each-other */
+.bottom-icons-container {
+  table-layout: fixed;
+  display: table;
+  width: 100%;
+}
+
+.cell-container {
+  display: table-cell;
+  text-align: center;
+}

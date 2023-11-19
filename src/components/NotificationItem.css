@@ -1,0 +1,32 @@
+.avatar > img{
+  height: 40px;
+  width: 40px;
+  border-radius: 50%;
+}
+
+.notification-item-container {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  padding: 16px;
+  border: solid 2px #f3f6f9;
+}
+
+.notification-text-container {
+  margin-left: 16px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.one-line-text {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.bold-text {
+  font-weight: 700;
+}

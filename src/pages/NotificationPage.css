@@ -1,0 +1,13 @@
+.notification-page-container {
+    display: flex;
+    flex-direction: column;
+    height: 100vh;
+}
+
+.notification-page-title {
+  padding: 20px;
+  width: 100%;
+}
+
+
+
