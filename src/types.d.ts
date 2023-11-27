@@ -1,35 +1,56 @@
-export type PostDetailWithComments = PostDetail & { comments: Comment[] };
+export type PostDetailWithComments = PostBrief & { comments: Comment[] };
 
 export type Comment = {
   id: string;
-  content: string;
-  created_at: string;
-  username: string;
-  post: string;
-  user_profile_image: string;
-  is_private: boolean;
-  like_count: number;
+  comment: string;
+  author: AuthorInfo;
+  published: string;
   is_liked: boolean;
+  like_count: number;
 }
 
-export type PostVisibility = 'public' | 'private' | 'friends_only';
-export type PostType = 'text/markdown' | 'text/plain' | 'image';
+export type PostVisibility = 'PUBLIC' | 'PRIVATE' | 'FRIENDS';
+export type ContentType = 'text/markdown' | 'text/plain' | 'image';
 
-export type PostDetail = {
+export type AuthorInfo = {
+  id: string;
+  displayName: string;
+  url: string;
+  host: string;
+  profileImage: string;
+  github: string;
+  is_following: boolean;
+}
+
+export type FriendRequest = {
+  id: string;
+  requester: AuthorInfo;
+  status: 'PENDING' | 'ACCEPTED' | 'REJECTED';
+  created_at: string;
+}
+
+export type PostBase = {
   id: string;
   title: string;
-  created_at: string;
-  author_name: string;
-  like_count: number;
-  comment_count: number;
-  author_profile_image: string;
   content: string;
-  is_liked: boolean;
-  is_my_post: boolean;
-  type: PostType;
   visibility: PostVisibility;
-  image: string | null;
-  allowed_users?: string[];
+  contentType: ContentType;
+}
+
+export type PostBrief = {
+  id: string;
+  published: string;
+  is_liked: boolean;
+  count: number;
+  like_count: number;
+  author: AuthorInfo;
+  is_my_post: boolean;
+} & PostBase;
+
+export type PostDetail = PostBrief & {
+  commentsSrc: {
+    comments: Comment[];
+  }
 }
 
 export type User = {
@@ -43,24 +64,6 @@ export type User = {
 export type FollowUserInfo = User & {
   is_following: boolean;
 }
-
-export type PostBase = {
-  title: string;
-  content: string;
-  image: string | null;
-  type: PostType;
-}
-
-export type PublicPost = PostBase & {
-  visibility: 'public' | 'friends_only';
-}
-
-export type PrivatePost = PostBase & {
-  visibility: 'private';
-  allowed_users: string[];
-}
-
-export type TPost = PublicPost | PrivatePost;
 
 export type PostNotification = {
   id: string;

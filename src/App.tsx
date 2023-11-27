@@ -20,7 +20,10 @@ import PersonIcon from '@mui/icons-material/Person';
 import FaceIcon from '@mui/icons-material/Face';
 import GroupIcon from '@mui/icons-material/Group';
 import PersonSearch from '@mui/icons-material/PersonSearch';
+import PersonAddIcon from '@mui/icons-material/PersonAdd';
 import { NarBarItem } from './components/NavBar';
+import FriendRequestItem from './components/FriendRequestItem';
+import FriendRequestPage from './pages/FriendRequestPage';
 
 function App() {
   const [open, setOpen] = useState(false);
@@ -42,7 +45,7 @@ function App() {
     {
       icon: <FaceIcon />,
       label: 'Profile',
-      path: '/profile'
+      path: '/my-profile'
     },
     {
       icon: <PersonIcon />,
@@ -58,6 +61,11 @@ function App() {
       icon: <PersonSearch />,
       label: 'Find People',
       path: '/find-people'
+    },
+    {
+      icon: <PersonAddIcon />,
+      label: 'Friend Requests',
+      path: '/friend-requests'
     }
   ];
 
@@ -89,7 +97,7 @@ function App() {
             <PostPage />
           </NavBarContentWrapper>
         } />
-        <Route path="/profile" element={
+        <Route path="/my-profile" element={
           <NavBarContentWrapper selection='Profile' options={navBarOptions}>
             <ProfilePage />
           </NavBarContentWrapper>
@@ -114,7 +122,7 @@ function App() {
             <UpdatePasswordPage />
           </NavBarContentWrapper>
         } />
-        <Route path="/update/profile" element={
+        <Route path="/edit-profile" element={
           <NavBarContentWrapper selection='UpdateProfile' options={navBarOptions}>
             <UpdateProfilePage />
           </NavBarContentWrapper>
@@ -122,6 +130,11 @@ function App() {
         <Route path="/find-people" element={
           <NavBarContentWrapper selection='FindPeople' options={navBarOptions}>
             <FindPeoplePage />
+          </NavBarContentWrapper>
+        } />
+        <Route path="/friend-requests" element={
+          <NavBarContentWrapper selection='FindPeople' options={navBarOptions}>
+            <FriendRequestPage />
           </NavBarContentWrapper>
         } />
       </Routes>

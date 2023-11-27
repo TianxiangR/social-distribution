@@ -6,13 +6,13 @@ import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
 import FavoriteIcon from '@mui/icons-material/Favorite';
 import IosShareIcon from '@mui/icons-material/IosShare';
 import MoreHorizIcon from '@mui/icons-material/MoreHoriz';
-import { PostDetail, TPost } from '../types';
+import { PostBase, PostBrief  } from '../types';
 import CreatePost from './CreatePost';
 import { deletePost, updatePost } from '../apis';
 import ReactMarkDown from 'react-markdown';
 import { getTimeDiffString } from '../utils';
 
-export interface PostProps extends PostDetail {
+export interface PostProps extends PostBrief {
   onBodyClick?: (e: React.MouseEvent<HTMLDivElement>) => void;
   onCommentIconClick?: (e: React.MouseEvent<HTMLElement>) => void;
   onLikeIconClick?: (e: React.MouseEvent<HTMLElement>) => void;
@@ -25,17 +25,15 @@ function Post(props: PostProps) {
   const {
     id, 
     title, 
-    author_profile_image, 
     content, 
     like_count, 
-    comment_count, 
-    created_at, 
     is_liked, 
-    author_name, 
-    is_my_post, 
-    allowed_users = [],
+    count,
+    published,
     visibility,
-    type: postType, 
+    contentType,
+    author,
+    is_my_post,
     onItemChanged,
     onItemDeleted,
     onCommentIconClick,
@@ -45,30 +43,10 @@ function Post(props: PostProps) {
   // MUI Menu Sample Code: https://codesandbox.io/s/p7r69v?file=/src/Demo.tsx:486-559
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
   const menuOpen = Boolean(anchorEl);
-  const timeDiffString = getTimeDiffString(new Date(created_at));
+  const timeDiffString = getTimeDiffString(new Date(published));
   const paragraphs = content.split('\n');
   const [isEditing, setIsEditing] = useState(false);
-  let postEditDefaultValue = null;
-
-  if (visibility === 'private') {
-    postEditDefaultValue = {
-      title,
-      content,
-      image: null,
-      type: postType,
-      visibility,
-      allowed_users
-    };
-  }
-  else {
-    postEditDefaultValue = {
-      title,
-      content,
-      image: null,
-      type: postType,
-      visibility
-    };
-  }
+  const postEditDefaultValue = {id, title, content, visibility, contentType};
   
   const handleBodyClick = (e: React.MouseEvent<HTMLDivElement>) => {
     e.preventDefault();
@@ -117,7 +95,7 @@ function Post(props: PostProps) {
 
   let postContent = <></>;
 
-  if (postType === 'text/plain')
+  if (contentType === 'text/plain')
   {
     postContent = 
     <>
@@ -139,7 +117,7 @@ function Post(props: PostProps) {
       })}
     </>;
   }
-  else if (postType === 'text/markdown')
+  else if (contentType === 'text/markdown')
   {
     postContent = <ReactMarkDown>{content}</ReactMarkDown>;
   }
@@ -155,8 +133,7 @@ function Post(props: PostProps) {
     }
   };
 
-  const handleUpdatePost = async (post: TPost) => {
-    await updatePost(id, post);
+  const handleUpdatePost = () => {
     setIsEditing(false);
     onItemChanged?.();
   };
@@ -183,11 +160,11 @@ function Post(props: PostProps) {
           </Menu>
         </div>
       }
-      <Avatar src={author_profile_image} sx={{width: '40px', height: '40px'}} />
+      <Avatar src={author.profileImage} sx={{width: '40px', height: '40px'}} />
       <div className='content-container'>
         <span style={{ display: 'flex', flexDirection: 'row', gap: '2px' }}>
           <Typography variant="body1" sx={{ fontWeight: 700 }}>
-            {author_name}
+            {author.displayName}
           </Typography>
           <Typography variant="body1">
             {' · ' + timeDiffString}
@@ -201,7 +178,7 @@ function Post(props: PostProps) {
         <div className='bottom-icons-container'>
           <span className='cell-container'>
             <Button variant='text' size='small' startIcon={<ChatBubbleOutlineIcon />} onClick={handleCommentIconClick}>
-              {comment_count}
+              {count}
             </Button>
           </span>
           <span className='cell-container'>
@@ -219,7 +196,7 @@ function Post(props: PostProps) {
   
   return isEditing ?
     <div className='create-post-container'>
-      <CreatePost onSubmit={handleUpdatePost} onCancel={handleCancelEdit} defaultValue={postEditDefaultValue}/>
+      <CreatePost onSubmitted={handleUpdatePost} onCancel={handleCancelEdit} defaultValue={postEditDefaultValue}/>
     </div>
     : postBody;
 }

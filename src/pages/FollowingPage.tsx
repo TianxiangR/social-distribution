@@ -1,20 +1,21 @@
 import React, { useState, useEffect } from 'react';
 import './FollowingPage.css';
-import { User } from '../types';
+import { AuthorInfo } from '../types';
 import FollowingItem from '../components/FollowingItem';
 import { unfollow } from '../apis';
 import { useNavigate } from 'react-router-dom';
 import { getFollowing } from '../apis';
 
+
 function FollowingPage() {
-  const [users, setUsers] = useState<User[]>([]);
+  const [users, setUsers] = useState<AuthorInfo[]>([]);
   const navigate = useNavigate();
   
   const loadFollowing = async () => {
     const response = await getFollowing();
-    const users = await response.json();
+    const json_data = await response.json();
     if (response.ok) {
-      return setUsers(users);
+      return setUsers(json_data.items);
     }
 
     if (response.status === 401) {

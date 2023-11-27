@@ -1,20 +1,20 @@
 import React, { useEffect, useState} from 'react';
 import FollowingItem from '../components/FollowingItem';
-import { FollowUserInfo } from '../types';
-import { getUserList, follow, unfollow } from '../apis';
+import { getUserList, makeFriendRequest } from '../apis';
 import { TextField, InputAdornment } from '@mui/material';
 import SearchIcon from '@mui/icons-material/Search';
 import './FindPeoplePage.css';
+import { AuthorInfo } from '../types';
 
 function FindPeoplePage() {
-  const [users, setUsers] = useState<Array<FollowUserInfo>>([]);
+  const [users, setUsers] = useState<Array<AuthorInfo>>([]);
   const [query, setQuery] = useState('');
-  const [filteredUsers, setFilteredUsers] = useState<Array<FollowUserInfo>>([]);
+  const [filteredUsers, setFilteredUsers] = useState<Array<AuthorInfo>>([]);
 
   const fetchUsers = async () => {
     const response = await getUserList();
-    const users = await response.json();
-    setUsers(users);
+    const json_data = await response.json();
+    setUsers(json_data.items);
   };
 
   useEffect(() => {
@@ -25,25 +25,12 @@ function FindPeoplePage() {
     updateFilteredUsers();
   }, [query, users]);
 
-  const createHandleUnfollow = (id: string) => async () => {
-    await unfollow(id);
-    fetchUsers();
-  };
-
-  const createHandleFollow = (id: string) => async () => {
-    await follow(id);
-    fetchUsers();
-  };
-
-  const createHandleChangeRelation = (id: string, is_following: boolean) => {
-    if (is_following) {
-      return createHandleUnfollow(id);
-    }
-    return createHandleFollow(id);
+  const createHandleChangeRelation = (user: AuthorInfo) => {
+    return async () => {await makeFriendRequest(user);};
   };
 
   const updateFilteredUsers = () => {
-    const filteredUsers = users.filter((user) => user.username.includes(query) || user.email.includes(query));
+    const filteredUsers = users.filter((user) => user.displayName.includes(query) || user.host.includes(query));
     setFilteredUsers(filteredUsers);
   };
 
@@ -71,7 +58,7 @@ function FindPeoplePage() {
       </div>
       {
         filteredUsers.map((user) => (
-          <FollowingItem key={user.id} onChangeRelation={createHandleChangeRelation(user.id, user.is_following)} {...user}/>
+          <FollowingItem key={user.id} onChangeRelation={createHandleChangeRelation(user)} {...user}/>
         ))
       }
     </div>

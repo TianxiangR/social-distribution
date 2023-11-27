@@ -1,26 +1,25 @@
 import React from 'react';
 import './FollowingItem.css';
-import { FollowUserInfo } from '../types';
+import { AuthorInfo } from '../types';
 import { Button, Typography } from '@mui/material';
+import { Avatar } from '@mui/material';
 
-export interface FollowngItemProps extends FollowUserInfo {
-  onChangeRelation?: () => void;
+export interface FollowngItemProps extends AuthorInfo {
+  onChangeRelation?: () => void | Promise<void>;
 }
 
 function FollowingItem(props: FollowngItemProps) {
-  const { username, profile_image, email, is_following, onChangeRelation } = props;
+  const { displayName, profileImage, host, is_following, onChangeRelation } = props;
   return (
     <div className='following-item-container'>
       <div className='left-wrapper'>
-        <div className='avatar'>
-          <img src={profile_image} alt={username} />
-        </div>
+        <Avatar src={profileImage} sx={{width: '40px', height: '40px'}} />
         <div className='info-container'>
           <Typography variant='body1' sx={{fontWeight: 700}}>
-            {username}
+            {displayName}
           </Typography>
           <Typography variant='body1' sx={{color: 'gray'}}>
-            {email}
+            {`(host: ${host})`}
           </Typography>
         </div>
       </div>

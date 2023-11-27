@@ -6,10 +6,11 @@ export interface SelectSingleProps {
   label: string;
   value: string;
   onChange?: (e: SelectChangeEvent) => void;
+  disabled?: boolean;
 }
 
 function SelectSingle(props: SelectSingleProps) {
-  const { label, value, onChange, options } = props;
+  const { label, value, onChange, options, disabled } = props;
 
   return (
     <FormControl>
@@ -18,6 +19,7 @@ function SelectSingle(props: SelectSingleProps) {
         label={label}
         value={value}
         onChange={onChange}
+        disabled={disabled}
       >
         {
           options.map((item, idx) => (

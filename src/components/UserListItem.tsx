@@ -1,20 +1,19 @@
 import React from 'react';
 import './UserListItem.css';
-import { User } from '../types';
+import { AuthorInfo } from '../types';
 import { Typography } from '@mui/material';
+import { Avatar } from '@mui/material';
 
-function UserListItem(props: User) {
-  const { username, profile_image, email } = props;
+function UserListItem(props: AuthorInfo) {
+  const { displayName, host, profileImage } = props;
   return (
     <div className="user-list-item-container">
-      <div className='avator-container'>
-        <img src={profile_image} />
-      </div>
+      <Avatar src={profileImage} sx={{width: '40px', height: '40px'}} />
       <Typography variant='body1' sx={{fontWeight: 700}}>
-        {username}
+        {displayName}
       </Typography>
       <Typography variant='body2' sx={{color: 'gray'}}>
-        {`(${email})`}
+        {`(host: ${host})`}
       </Typography>
     </div>
   );
