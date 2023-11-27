@@ -1,14 +1,14 @@
 import React, {useState} from 'react';
 import './Post.css';
-import { Typography, Button, IconButton, Menu, MenuItem, Divider, Avatar } from '@mui/material';
+import { Typography, Button, IconButton, Menu, MenuItem, Divider, Avatar, Snackbar } from '@mui/material';
 import ChatBubbleOutlineIcon from '@mui/icons-material/ChatBubbleOutline';
 import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
 import FavoriteIcon from '@mui/icons-material/Favorite';
 import IosShareIcon from '@mui/icons-material/IosShare';
 import MoreHorizIcon from '@mui/icons-material/MoreHoriz';
-import { PostBase, PostBrief  } from '../types';
+import { PostBrief } from '../types';
 import CreatePost from './CreatePost';
-import { deletePost, updatePost } from '../apis';
+import { deletePost } from '../apis';
 import ReactMarkDown from 'react-markdown';
 import { getTimeDiffString } from '../utils';
 
@@ -34,6 +34,7 @@ function Post(props: PostProps) {
     contentType,
     author,
     is_my_post,
+    image_url,
     onItemChanged,
     onItemDeleted,
     onCommentIconClick,
@@ -47,6 +48,7 @@ function Post(props: PostProps) {
   const paragraphs = content.split('\n');
   const [isEditing, setIsEditing] = useState(false);
   const postEditDefaultValue = {id, title, content, visibility, contentType};
+  const [open, setOpen] = useState(false);
   
   const handleBodyClick = (e: React.MouseEvent<HTMLDivElement>) => {
     e.preventDefault();
@@ -68,12 +70,6 @@ function Post(props: PostProps) {
     e.preventDefault();
     e.stopPropagation();
     onLikeIconClick?.(e);
-  };
-
-  const handleShareIconClick = (e: React.MouseEvent<HTMLElement>) => {
-    e.preventDefault();
-    e.stopPropagation();
-    onShareIconClick?.(e);
   };
 
   const handleSettingClick = (e: React.MouseEvent<HTMLElement>) => {
@@ -121,6 +117,10 @@ function Post(props: PostProps) {
   {
     postContent = <ReactMarkDown>{content}</ReactMarkDown>;
   }
+  else if (contentType === 'image')
+  {
+    postContent = <img src={image_url} />;
+  }
 
   const handleDeleteClick = async (e: React.MouseEvent<HTMLElement>) => {
     e.preventDefault();
@@ -140,6 +140,13 @@ function Post(props: PostProps) {
 
   const handleCancelEdit = () => {
     setIsEditing(false);
+  };
+
+  const handleShareIconClick = (e: React.MouseEvent<HTMLElement>) => {
+    e.preventDefault();
+    e.stopPropagation();
+    navigator.clipboard.writeText(image_url || '');
+    setOpen(true);
   };
 
   const postBody = (
@@ -187,10 +194,19 @@ function Post(props: PostProps) {
             </Button>
           </span>
           <span className='cell-container'>
-            <Button variant='text' size='small' startIcon={<IosShareIcon />} onClick={handleShareIconClick} />
+            <>
+              <Button variant='text' size='small' startIcon={<IosShareIcon />} onClick={handleShareIconClick} />
+            </>
           </span>
         </div>
       </div>
+      <Snackbar
+        message="Copied to clibboard"
+        anchorOrigin={{ vertical: 'top', horizontal: 'center' }}
+        autoHideDuration={2000}
+        onClose={() => setOpen(false)}
+        open={open}
+      />
     </div>
   );
   

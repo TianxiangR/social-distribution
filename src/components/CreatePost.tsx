@@ -23,6 +23,7 @@ function CreatePost(props: CreatePostProps) {
   const visibilityOptions = ['PUBLIC', 'FRIENDS', 'PRIVATE'];
   const [preview, setPreview] = useState(false);
   const inputRef = useRef<HTMLInputElement>(null);
+  const [imageDate, setImageData] = useState<string>('');
   
   const handleOnChange = (setter: Dispatch<SetStateAction<string>> ) => (e: React.ChangeEvent<HTMLInputElement>) => {
     setter(e.target.value);
@@ -30,11 +31,23 @@ function CreatePost(props: CreatePostProps) {
 
   const handlePostClick = async (e: React.MouseEvent<HTMLElement>) => {
     e.preventDefault();
+
+    let request_body = {};
+
+    if (contentType === 'image')
+    {
+      request_body = {title, contentType, content: imageDate, visibility, unlisted: true};
+    }
+    else
+    {
+      request_body = {title, contentType, content, visibility};
+    }
+
     if (isEditing) {
-      await updatePost(defaultValue!.id, {title, content, contentType, visibility});
+      await updatePost(defaultValue!.id, request_body as PostBase);
       onSubmited();
     } else {
-      await createPost({title, content, contentType, visibility});
+      await createPost(request_body as PostBase);
       onSubmited();
     }
   };
@@ -51,24 +64,22 @@ function CreatePost(props: CreatePostProps) {
     setPreview(e.target.checked);
   };
 
+  const handleImageSelected = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (file) {
+      const reader = new FileReader();
+      reader.onload = (e) => {
+        setImageData(e.target?.result as string);
+      };
+      reader.readAsDataURL(file);
+    }
+  };
 
-  return (
-    <Box className="form-container">
-      <span className="label-input-container">
-        <Typography variant="h6">
-          Title
-        </Typography>
-        <TextField
-          variant="outlined"
-          fullWidth
-          value={title}
-          onChange={handleOnChange(setTitle)}
-          sx={{marginTop: '10px'}}
-          data-testid="dialog-input-title"
-          inputRef={inputRef}
-        />
-      </span>
-      <SelectSingle label="Post Type" value={contentType} options={postTypeOptions} onChange={handlePostTypeSelectionChange}/>
+
+  let contentPart = <></>;
+  if (contentType === 'text/plain' || contentType === 'text/markdown')
+  {
+    contentPart = <>
       {contentType === 'text/markdown' && <FormControlLabel control={<Switch checked={preview} onChange={handlePreviewChange} />} label="Preview"/>}
       <span className="label-input-container">
         <Typography variant="h6">
@@ -94,18 +105,46 @@ function CreatePost(props: CreatePostProps) {
           />}
       </span>
       <SelectSingle label="Visibility" value={visibility.replaceAll('_', ' ')} options={visibilityOptions} disabled={isEditing} onChange={handleVisibilitySelectionChange}/>
+    </>;
+  }
+  else if (contentType === 'image')
+  {
+    contentPart = <>
+      <input type="file" accept="image/*" onChange={handleImageSelected} />
+    </>;
+  }
+
+
+  return (
+    <Box className="form-container">
+      <span className="label-input-container">
+        <Typography variant="h6">
+          Title
+        </Typography>
+        <TextField
+          variant="outlined"
+          fullWidth
+          value={title}
+          onChange={handleOnChange(setTitle)}
+          sx={{marginTop: '10px'}}
+          data-testid="dialog-input-title"
+          inputRef={inputRef}
+        />
+      </span>
+      <SelectSingle label="Post Type" value={contentType} options={postTypeOptions} onChange={handlePostTypeSelectionChange}/>
+      {contentPart}
       <span className="button-group">
         <Button 
           variant="contained" 
           sx={{marginTop: '20px'}} 
           onClick={handlePostClick} 
-          disabled={title.length === 0 || content.length === 0}
+          disabled={title.length === 0 || contentType === 'image' && imageDate.length === 0 || contentType !== 'image' && content.length === 0}
           data-testid="dialog-button-submit"
         >
           {isEditing ? 'Update' : 'Submit'}
         </Button>
         <Button 
-          variant="contained" 
+          variant="outlined" 
           sx={{marginTop: '20px'}} 
           color="info"
           onClick={onCancel}

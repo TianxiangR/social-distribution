@@ -35,6 +35,8 @@ export type PostBase = {
   content: string;
   visibility: PostVisibility;
   contentType: ContentType;
+  unlisted?: boolean;
+  image_url?: string;
 }
 
 export type PostBrief = {
