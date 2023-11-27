@@ -21,6 +21,7 @@ export async function login(username: string, password: string) {
       'Content-Type': 'application/json',
     },
     body: JSON.stringify({ username, password }),
+    mode: 'cors',
   });
 }
 
