@@ -1,6 +1,6 @@
 
 import Cookie from 'universal-cookie';
-import { TPost } from './types';
+import { AuthorInfo, PostBase } from './types';
 const base_url = 'http://localhost:8000';
 
 export function getTokenFromCookie() {
@@ -51,7 +51,7 @@ export async function likePost(id: string) {
   });
 }
 
-export async function createPost(body: TPost) {
+export async function createPost(body: Omit<PostBase, 'id'>) {
   const token = getTokenFromCookie();
   return await fetch(base_url + '/api/posts/', {
     method: 'POST',
@@ -63,7 +63,8 @@ export async function createPost(body: TPost) {
   });
 }
 
-export async function createComment(postId: string, content: string) {
+
+export async function createComment(postId: string, comment: string) {
   const token = getTokenFromCookie();
   return await fetch(base_url + '/api/posts/' + postId + '/comments/', {
     method: 'POST',
@@ -71,7 +72,7 @@ export async function createComment(postId: string, content: string) {
       'Content-Type': 'application/json',
       Authorization: 'Token ' + token,
     },
-    body: JSON.stringify({ content }),
+    body: JSON.stringify({ comment }),
   });
 }
 
@@ -87,7 +88,7 @@ export async function likeComment(postId: string, commentId: string) {
 
 export async function getFollowing() {
   const token = getTokenFromCookie();
-  return await fetch(base_url + '/api/follows?type=following', {
+  return await fetch(base_url + '/api/followings/', {
     headers: {
       Authorization: 'Token ' + token,
     },
@@ -96,7 +97,7 @@ export async function getFollowing() {
 
 export async function getFollowers() {
   const token = getTokenFromCookie();
-  return await fetch(base_url + '/api/follows?type=followers', {
+  return await fetch(base_url + '/api/followers/', {
     headers: {
       Authorization: 'Token ' + token,
     },
@@ -105,7 +106,7 @@ export async function getFollowers() {
 
 export async function unfollow(id: string) {
   const token = getTokenFromCookie();
-  return await fetch(base_url + '/api/follows', {
+  return await fetch(base_url + '/api/followings/', {
     method: 'DELETE',
     headers: {
       Authorization: 'Token ' + token,
@@ -136,10 +137,10 @@ export async function getFriends(){
   });
 }
 
-export async function updatePost(id: string, body: TPost) {
+export async function updatePost(id: string, body: Partial<PostBase>) {
   const token = getTokenFromCookie();
   return await fetch(base_url + '/api/posts/' + id, {
-    method: 'PUT',
+    method: 'PATCH',
     headers: {
       Authorization: 'Token ' + token,
       'Content-Type': 'application/json',
@@ -160,7 +161,7 @@ export async function deletePost(id: string) {
 
 export async function getUserList() {
   const token = getTokenFromCookie();
-  return await fetch(base_url + '/api/authors', {
+  return await fetch(base_url + '/api/authors/', {
     headers: {
       Authorization: 'Token ' + token,
     },
@@ -182,6 +183,76 @@ export async function updateNotification(id: string, body: unknown){
     method: 'PATCH',
     headers: {
       Authorization: 'Token ' + token,
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify(body),
+  });
+}
+
+export async function makeFriendRequest(target: AuthorInfo) {
+  const token = getTokenFromCookie();
+  return await fetch(base_url + '/api/friend-requests/', {
+    method: 'POST',
+    headers: {
+      Authorization: 'Token ' + token,
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify(target),
+  });
+}
+
+
+export async function getFriendRequestList() {
+  const token = getTokenFromCookie();
+  return await fetch(base_url + '/api/friend-requests/', {
+    headers: {
+      Authorization: 'Token ' + token,
+    },
+  });
+}
+
+export async function acceptFriendRequest(id: string) {
+  const token = getTokenFromCookie();
+  return await fetch(base_url + '/api/friend-requests/' + id, {
+    method: 'PATCH',
+    headers: {
+      Authorization: 'Token ' + token,
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify({ status: 'ACCEPTED' }),
+  });
+}
+
+
+export async function rejectFriendRequest(id: string) {
+  const token = getTokenFromCookie();
+  return await fetch(base_url + '/api/friend-requests/' + id, {
+    method: 'PATCH',
+    headers: {
+      Authorization: 'Token ' + token,
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify({ status: 'REJECTED' }),
+  });
+}
+
+
+export async function getProfile(){
+  const token = getTokenFromCookie();
+  return await fetch(base_url + '/api/my-profile', {
+    headers: {
+      Authorization: 'Token ' + token,
+    },
+  });
+}
+
+export async function updateProfile(body: object){
+  const token = getTokenFromCookie();
+  return await fetch(base_url + '/api/my-profile', {
+    method: 'PATCH',
+    headers: {
+      Authorization: 'Token ' + token,
+      'Content-Type': 'application/json',
     },
     body: JSON.stringify(body),
   });

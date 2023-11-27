@@ -1,7 +1,7 @@
 import React, { useEffect, useState, useRef } from 'react';
 import '../components/PostItem.css';
 import { useParams } from 'react-router-dom';
-import { PostDetailWithComments } from '../types';
+import { PostDetail } from '../types';
 import CommentItem from '../components/CommentItem';
 import Post from '../components/Post';
 import { Button, IconButton, TextField, Typography } from '@mui/material';
@@ -16,7 +16,7 @@ import '../global.css';
 
 function PostPage() {
   const { id = '-1' } = useParams();
-  const [post, setPost] = useState<PostDetailWithComments | null>(null);
+  const [post, setPost] = useState<PostDetail | null>(null);
   const [comment, setComment] = useState('');
   const navigate = useNavigate();
   const commentViewRef = useRef<HTMLDivElement>(null);
@@ -30,9 +30,6 @@ function PostPage() {
     const post = await response.json();
 
     if (response.ok) {
-      post.comments.sort((a: Comment, b: Comment) => {
-        return new Date(b.created_at).getTime() - new Date(a.created_at).getTime();
-      });
       return setPost(post);
     }
 
@@ -71,27 +68,7 @@ function PostPage() {
       .then((response) => {
         if (response.ok)
         {
-          return response.json();
-        }
-        return Promise.reject(response.status);
-      })
-      .then((data) => {
-        if (data)
-        {
-          if (post === null)
-          {
-            return;
-          }
-          const newPost = {...post};
-          const comment = newPost.comments.find((item) => item.id === commentId);
-          if (comment === undefined)
-          {
-            return;
-          }
-      
-          comment.is_liked = true;
-          comment.like_count++;
-          setPost(newPost);
+          return loadPost();
         }
       });
   };
@@ -126,7 +103,7 @@ function PostPage() {
     return null;
   }
 
-  const { comments, ...postProps } = post;
+  const { commentsSrc: {comments}, ...postProps } = post;
   return (
     <div className='scroll-container' ref={outerContainerRef}>
       <div className='top-bar' ref={topBarRef}>
@@ -166,7 +143,7 @@ function PostPage() {
       </div>
       {
         comments.map((item, idx) => (
-          <CommentItem key={idx} {...item} onLikeClick={handleCommentLikeClick(item.post, item.id)}/>
+          <CommentItem key={idx} {...item} onLikeClick={handleCommentLikeClick(post.id, item.id)}/>
         ))
       }
     </div>

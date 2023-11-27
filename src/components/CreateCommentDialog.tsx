@@ -1,5 +1,5 @@
 import React, {useState} from 'react';
-import { Typography, TextField, Button, Dialog, DialogTitle, DialogContent, DialogProps } from '@mui/material';
+import { TextField, Button, Dialog, DialogTitle, DialogContent } from '@mui/material';
 import { createComment } from '../apis';
 
 export interface CreateCommentDialogProps {

@@ -1,6 +1,6 @@
-import React, {useState, useEffect, Suspense} from 'react';
+import React, {useState, useEffect } from 'react';
 import Post from '../components/Post';
-import { PostDetail } from '../types';
+import { PostBrief } from '../types';
 import { useNavigate } from 'react-router-dom';
 import { getPostList, likePost } from '../apis';
 import CreateCommentDialog from '../components/CreateCommentDialog';
@@ -9,17 +9,14 @@ import '../global.css';
 function HomePage() {
   const [open, setOpen] = useState(false);
   const [postId, setPostId] = useState('');
-  const [postItems, setPostItems] = useState<PostDetail[]>([]);
+  const [postItems, setPostItems] = useState<PostBrief[]>([]);
   const navigate = useNavigate();
 
   const loadPostList = async () => {
     const response = await getPostList();
-    const posts = await response.json();
+    const json_data = await response.json();
+    const posts = json_data.items as PostBrief[];
     if (response.ok) {
-      // sort by creation date
-      posts.sort((a: PostDetail, b: PostDetail) => {
-        return new Date(b.created_at).getTime() - new Date(a.created_at).getTime();
-      });
       return setPostItems(posts);
     } else {
       return navigate('/login');

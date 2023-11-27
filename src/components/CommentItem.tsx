@@ -13,20 +13,20 @@ export interface CommentItemProps extends Comment {
 }
 
 function CommentItem(props: CommentItemProps) {
-  const {user_profile_image,  content, like_count, created_at, username, is_liked, onLikeClick} = props;
-  const timeDiffString = getTimeDiffString(new Date(created_at));
-  const paragraphs = content.split('\n');
+  const {comment, author, like_count, is_liked, published, onLikeClick} = props;
+  const timeDiffString = getTimeDiffString(new Date(published));
+  const paragraphs = comment.split('\n');
 
   return (
     <div className='comment-item-container' >
-      <Avatar src={user_profile_image} sx={{width: '40px', height: '40px'}} />
+      <Avatar src={author.profileImage} sx={{width: '40px', height: '40px'}} />
       {/* <div className='avatar'>
-        <img src={user_profile_image} />
+        <img src={author.profileImage} />
       </div> */}
       <div className='content-container'>
         <span style={{display: 'flex', flexDirection: 'row', gap: '2px'}}>
           <Typography variant="body1" sx={{fontWeight: 700}}>
-            {username}
+            {author.displayName}
           </Typography>
           <Typography variant="body1">
             {' · ' + timeDiffString}
@@ -50,14 +50,9 @@ function CommentItem(props: CommentItemProps) {
             </Typography>);
         })}
         <div className='bottom-icons-container'>
-          <span className='cell-container'>
-            <Button variant='text' size='small' startIcon={is_liked ? <FavoriteIcon /> : <FavoriteBorderIcon />} onClick={is_liked ? undefined : onLikeClick}>
-              {like_count}
-            </Button>
-          </span>
-          <span className='cell-container'>
-            <Button variant='text' size='small' startIcon={<IosShareIcon />}/>
-          </span>
+          <Button variant='text' size='small' startIcon={is_liked ? <FavoriteIcon /> : <FavoriteBorderIcon />} onClick={is_liked ? undefined : onLikeClick}>
+            {like_count}
+          </Button>
         </div>
       </div>
     </div>

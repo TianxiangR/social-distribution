@@ -3,6 +3,7 @@ import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 import validator from 'validator';
+import { getProfile, updateProfile } from '../apis';
 
 const Container = styled.div`
   display: flex;
@@ -59,120 +60,54 @@ const Button = styled.button`
   }
 `;
 
-const Error = styled.p`
-  color: red;
-  margin-top: 10px;
-`;
 
 
 function UpdateProfilePage() {
   const navigate = useNavigate();
-  const [firstName, setFirstName] = useState('first');
-  const [lastName, setLastName] = useState('last');
-  const [email, setEmail] = useState('email@email.com');
-  const [userName, setUserName] = useState('username');
-  const [emailError, setEmailError] = useState('');
+  const [github, setGithub] = useState('');
+  const [username, setUserName] = useState('');
   
-  const getProfile = async () => {
-    const userId = window.sessionStorage.getItem('userid');
-
-    const response = await fetch('http://localhost:8000/api/get_user/'+userId, {
-      method: 'GET',
-      headers: {
-        'Content-Type':  'application/json',
-      },
-      mode:'cors'
-    });
-    
-    const res = await response.json();
-    console.log(res);
-    setFirstName(res.first_name);
-    setLastName(res.last_name);
-    setUserName(res.username);
-    setEmail(res.email);
+  const handleUpdateClick = async () => {
+    const response = await updateProfile({github, username});
+    if (response.ok) {
+      navigate('/my-profile');
+    }
   };
 
-  const updateProfile = async () => {
-    const userId = window.sessionStorage.getItem('userid');
-
-    const payload = {
-      'first_name': firstName,
-      'last_name': lastName,
-      'username': userName,
-      'email': email
-    };
-    
-    const response = await fetch('http://localhost:8000/api/update_user/'+userId, {
-      method: 'POST',
-      headers: {
-        'Content-Type':  'application/json',
-      },
-      body: JSON.stringify(payload),
-      mode:'cors'
-    });
-    
-    const data = await response.json();
-    if (response.status == 200) {
-      window.sessionStorage.setItem('token', data.token);
-      navigate('/profile');
+  const loadProfile = async () => {
+    const response = await getProfile();
+    const json_data = await response.json();
+    if (response.ok) {
+      setGithub(json_data.github);
+      setUserName(json_data.displayName);
     }
   };
 
   useEffect(() => {
-    getProfile();
+    loadProfile();
   }, []);
-
-  const isFormComplete = () => {
-    return (
-      firstName.trim() !== '' &&
-      lastName.trim() !== '' &&
-      validator.isEmail(email) &&
-      userName.trim() !== ''
-    );
-  };
-  
-  const handleUpdate = () => {
-    if (isFormComplete()){
-      setEmailError('');
-      navigate('/');
-    }
-    else {
-      alert('Please fill in all the fields!');
-    }
-  };
 
   return (
     <Container>
       <Form>
         <Heading>Update Profile</Heading>
-        <Label>First Name:
-          <Input type="text" value={firstName} onChange={(e) => setFirstName(e.target.value)} />
-        </Label>
-        <br />
-        <Label>Last Name:
-          <Input type="text" value={lastName} onChange={(e) => setLastName(e.target.value)} />
-        </Label>
-        <br />
-        <Label>Email:
+        <Label>Username:
           <Input 
             type="text" 
-            value={email} 
-            onChange={(e) => setEmail(e.target.value)} 
-            onBlur={() => {
-              if (!validator.isEmail(email)) {
-                setEmailError('Invalid Email');
-              } else {
-                setEmailError('');
-              }
-            }} />
-        </Label>
-        {emailError && <Error>{emailError}</Error>}
-        <br />
-        <Label>Username:
-          <Input type="text" value={userName} onChange={(e) => setUserName(e.target.value)} />
+            value={username} 
+            onChange={(e) => setUserName(e.target.value)} 
+          />
         </Label>
         <br />
-        <Button type="button" onClick={updateProfile}>Update</Button>
+        <Label>Github:
+          <Input 
+            type="text" 
+            value={github} 
+            onChange={(e) => setGithub(e.target.value)}
+          />
+        </Label>
+        <br />
+        <Button type="button" onClick={handleUpdateClick}>Update</Button>
       </Form>
     </Container>  
   );

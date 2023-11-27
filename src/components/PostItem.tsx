@@ -1,10 +1,10 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
-import { PostDetail } from '../types';
+import { PostBrief } from '../types';
 import Post from './Post';
 import { likePost } from '../apis';
 
-function PostItem(props: PostDetail) {
+function PostItem(props: PostBrief) {
   const { id } = props;
   const navigate = useNavigate();
 

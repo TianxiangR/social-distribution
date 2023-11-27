@@ -1,0 +1,46 @@
+.avatar > img {
+  height: 40px;
+  width: 40px;
+  border-radius: 50%;
+}
+
+
+/* source: https://stackoverflow.com/questions/8995420/on-one-line-two-elements-left-most-one-right-most-contents-vertically-centere */
+.following-item-container {
+  padding: 16px;
+  border: solid 2px #f3f6f9;
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr);
+  grid-template-areas: "left right";
+}
+
+.left-wrapper, .right-wrapper {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+}
+
+.left-wrapper {
+  grid-area: left;
+}
+
+.right-wrapper {
+  grid-area: right;
+  justify-self: end;
+}
+
+.info-container {
+  margin-left: 16px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  overflow: hidden;
+}
+
+.button-container {
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-end;
+  align-items: center;
+  gap: 8px;
+}
