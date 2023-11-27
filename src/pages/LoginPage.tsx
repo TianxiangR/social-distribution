@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 import config from '../config';
-import { setTokenToCookie } from '../apis';
+import { login, setTokenToCookie } from '../apis';
 
 const Container = styled.div`
   display: flex;
@@ -77,42 +77,17 @@ const Span = styled.p`
 
 
 function LoginPage() {
-  const baseUrl = config.backendUrl;
-
   const navigate = useNavigate();
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
-  const [usernameError, setUsernameError] = useState('');
   const [passwordError, setPasswordError] = useState('');
 
   const handleLogin = async () => {
-    // if (username === 'user@example.com' && password === 'password') {
-    //   setUsernameError(''); 
-    //   setPasswordError(''); 
-    //   navigate('/home');
-    // } else if(username === 'user@example.com' && password !== 'password'){
-    //   setPasswordError('Invalid password. Please try again.');
-    // } else if(username !== 'user@example.com' && password === 'password'){
-    //   setUsernameError('Invalid email. Please try again.');
-    // }
-    const payload = {
-      'username': username,
-      'password': password
-    };
-
-    const response = await fetch(baseUrl + '/api/login/', {
-      method: 'POST',
-      headers: {
-        'Content-Type':  'application/json'
-      },
-      body: JSON.stringify(payload),
-    });
-    
-    const data =await response.json();
+    const response = await login(username, password);
+    const data = await response.json();
     
     if (response.status == 200) {
       setTokenToCookie(data.token);
-      window.sessionStorage.setItem('userid', data.user_id);
       navigate('/');
     } else {
       setPasswordError('Invalid username or password. Please try again.');
@@ -126,7 +101,6 @@ function LoginPage() {
         <Label>Username:
           <Input type="text" value={username} onChange={(e) => setUsername(e.target.value)} data-testid="input-username"/>
         </Label>
-        {usernameError && <Error>{usernameError}</Error>}
         <br />
         <Label>Password:
           <Input type="password" value={password} onChange={(e) => setPassword(e.target.value)} data-testid="input-password"/>
