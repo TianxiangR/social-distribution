@@ -1,7 +1,8 @@
 
 import Cookie from 'universal-cookie';
 import { AuthorInfo, PostBase } from './types';
-const base_url = 'http://localhost:8000';
+// const base_url = 'http://localhost:8000';
+const base_url = 'https://cmput404-project-backend-tian-aaf1fa9b20e8.herokuapp.com';
 
 export function getTokenFromCookie() {
   const cookie = new Cookie();
