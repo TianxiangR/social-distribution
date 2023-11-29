@@ -25,6 +25,18 @@ export async function login(username: string, password: string) {
   });
 }
 
+export async function signup(body: object) {
+  return await fetch(base_url + '/api/signup/', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify(body),
+    mode: 'cors',
+  });
+
+}
+
 export async function getPostList() {
   const token = getTokenFromCookie();
   return await fetch(base_url + '/api/posts/', {

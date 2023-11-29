@@ -2,8 +2,7 @@
 import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
-import validator from 'validator';
-import config from '../config';
+import { signup } from '../apis';
 
 const Container = styled.div`
   display: flex;
@@ -67,8 +66,6 @@ const Error = styled.p`
 
 
 function SignUpPage() {
-  const baseUrl = config.backendUrl;
-
   const navigate = useNavigate();
   const [userName, setUserName] = useState('');
   const [password, setPassword] = useState('');
@@ -95,20 +92,12 @@ function SignUpPage() {
     if (isFormComplete()){
       setEmailError('');
       setPasswordMatchError('');
-      navigate('/');
       const payload = {
         'username': userName,
         'password': password
       };
 
-      const response = await fetch(baseUrl + '/api/signup/', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json'
-        },
-        body: JSON.stringify(payload),
-        mode: 'cors'
-      });
+      const response = await signup(payload);
 
       const data = await response.json();
 
