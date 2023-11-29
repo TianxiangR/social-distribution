@@ -5,6 +5,7 @@ import { useNavigate } from 'react-router-dom';
 import { getPostList, likePost } from '../apis';
 import CreateCommentDialog from '../components/CreateCommentDialog';
 import '../global.css';
+import PushEventItem from '../components/PushEventItem';
 
 function HomePage() {
   const [open, setOpen] = useState(false);
@@ -46,6 +47,7 @@ function HomePage() {
 
   return (
     <div className='scroll-container'>
+      {/* <PushEventItem /> */}
       {postItems.map((item, idx) => (
         <>
           <Post key={idx} {...item} onBodyClick={handleBodyClick(item.id)} onLikeIconClick={handleLikeClick(item.id)} onCommentIconClick={handleCommentClick(item.id)} onItemChanged={loadPostList} onItemDeleted={loadPostList}/>

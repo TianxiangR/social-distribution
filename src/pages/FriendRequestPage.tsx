@@ -18,11 +18,15 @@ function FriendRequestPage() {
     fetchRequests();
   }, []);
 
+  const handleRequestProcessed = () => {
+    fetchRequests();
+  };
+
   return (
     <div className='friend-request-page-container'>
       <div className='friend-request-list-container'>
         {requests.map((request) => (
-          <FriendRequestItem key={request.id} {...request} />
+          <FriendRequestItem key={request.id} {...request} onRequestProcessed={handleRequestProcessed} />
         ))}
       </div>
     </div>

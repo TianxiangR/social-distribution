@@ -1,5 +1,5 @@
 import React from 'react';
-import { Button, List, ListItem, ListItemButton, ListItemIcon, ListItemText } from '@mui/material';
+import { Button, List, ListItem, ListItemButton, ListItemIcon, ListItemText, Chip } from '@mui/material';
 import { useNavigate } from 'react-router-dom';
 import CreatePostDialog from './CreatePostDialog';
 
@@ -38,7 +38,7 @@ function NavBar(props: NavBarProps) {
           ))
         }
         <ListItem sx={{padding: '20px 20px'}}>
-          <Button variant="contained" sx={{width: '100%'}} onClick={() => setOpen(true)} data-testid="button-create-post">Create Post</Button>
+          <Chip color="primary" sx={{width: '100%', borderRadius:'16px'}} onClick={() => setOpen(true)} label="Create Post" />
         </ListItem>
       </List>
       <CreatePostDialog open={open} onClose={() => setOpen(false)} />

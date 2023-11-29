@@ -70,9 +70,6 @@ function SignUpPage() {
   const baseUrl = config.backendUrl;
 
   const navigate = useNavigate();
-  const [firstName, setFirstName] = useState('');
-  const [lastName, setLastName] = useState('');
-  const [email, setEmail] = useState('');
   const [userName, setUserName] = useState('');
   const [password, setPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
@@ -88,9 +85,6 @@ function SignUpPage() {
   },[confirmPassword]);
   const isFormComplete = () => {
     return (
-      firstName.trim() !== '' &&
-      lastName.trim() !== '' &&
-      validator.isEmail(email) &&
       userName.trim() !== '' &&
       password.trim() !== '' &&
       confirmPassword.trim() !== ''
@@ -103,9 +97,6 @@ function SignUpPage() {
       setPasswordMatchError('');
       navigate('/');
       const payload = {
-        'first_name': firstName,
-        'last_name': lastName,
-        'email': email,
         'username': userName,
         'password': password
       };
@@ -135,27 +126,6 @@ function SignUpPage() {
     <Container>
       <Form>
         <Heading>Sign Up</Heading>
-        <Label>First Name:
-          <Input type="text" value={firstName} onChange={(e) => setFirstName(e.target.value)} />
-        </Label>
-        <br />
-        <Label>Last Name:
-          <Input type="text" value={lastName} onChange={(e) => setLastName(e.target.value)} />
-        </Label>
-        <br />
-        <Label>Email:
-          <Input 
-            type="text" 
-            value={email} 
-            onChange={(e) => setEmail(e.target.value)} 
-            onBlur={() => {
-              if (!validator.isEmail(email)) {
-                setEmailError('Invalid Email');
-              } else {
-                setEmailError('');
-              }
-            }} />
-        </Label>
         {emailError && <Error>{emailError}</Error>}
         <br />
         <Label>Username:
