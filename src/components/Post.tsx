@@ -60,6 +60,7 @@ function Post(props: PostProps) {
     }     
   };
 
+
   const handleCommentIconClick = (e: React.MouseEvent<HTMLElement>) => {
     e.preventDefault();
     e.stopPropagation();
