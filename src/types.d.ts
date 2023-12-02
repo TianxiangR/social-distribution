@@ -41,6 +41,7 @@ export type PostBase = {
 
 export type PostBrief = {
   id: string;
+  type: string;
   published: string;
   is_liked: boolean;
   count: number;
@@ -103,9 +104,11 @@ export type Notification = PostNotification | CommentNotification;
 export type CommitCommentEvent = {
   type: 'CommitCommentEvent';
   payload: {
+    action: string;
     comment: {
       id: number;
       body: string;
+      html_url: string;
       user: {
         login: string;
         avatar_url: string;
@@ -113,11 +116,22 @@ export type CommitCommentEvent = {
       }
     }
   };
-  created_at: string;
+  published: string;
 }
 
 export type CreateEvent = {
   type: 'CreateEvent';
+  actor: {
+    login: string;
+    avatar_url: string;
+    display_login: string;
+    url: string;
+  }
+  repo: {
+    id: number;
+    name: string;
+    url: string;
+  }
   payload: {
     ref_type: string;
     ref: string;
@@ -125,21 +139,42 @@ export type CreateEvent = {
     description: string;
     pusher_type: string;
   }
-  created_at: string;
+  published: string;
 }
 
 export type DeleteEvent = {
   type: 'DeleteEvent';
+  actor: {
+    login: string;
+    avatar_url: string;
+    display_login: string;
+    url: string;
+  }
+  repo: {
+    id: number;
+    name: string;
+    url: string;
+  }
   payload: {
     ref_type: string;
     ref: string;
-    pusher_type: string;
   }
-  created_at: string;
+  published: string;
 }
 
 export type ForkEvent = {
   type: 'ForkEvent';
+  actor: {
+    login: string;
+    avatar_url: string;
+    display_login: string;
+    url: string;
+  }
+  repo: {
+    id: number;
+    name: string;
+    url: string;
+  }
   payload: {
     forkee: {
       name: string;
@@ -151,11 +186,22 @@ export type ForkEvent = {
       }
     }
   }
-  created_at: string;
+  published: string;
 }
 
 export type GollumEvent = {
   type: 'GollumEvent';
+  actor: {
+    login: string;
+    avatar_url: string;
+    display_login: string;
+    url: string;
+  }
+  repo: {
+    id: number;
+    name: string;
+    url: string;
+  }
   payload: {
     pages: {
       page_name: string;
@@ -164,11 +210,17 @@ export type GollumEvent = {
       html_url: string;
     }[]
   }
-  created_at: string;
+  published: string;
 }
 
 export type IssueCommentEvent = {
   type: 'IssueCommentEvent';
+  actor: {
+    login: string;
+    avatar_url: string;
+    display_login: string;
+    url: string;
+  }
   payload: {
     action: string;
     issue: {
@@ -181,12 +233,31 @@ export type IssueCommentEvent = {
         html_url: string;
       }
     }
+    comment: {
+      body: string;
+      user: {
+        login: string;
+        avatar_url: string;
+        html_url: string;
+      }
+    }
   };
-  created_at: string;
+  published: string;
 }
 
-export type IssueEvent = {
-  type: 'IssueEvent';
+export type IssuesEvent = {
+  type: 'IssuesEvent';
+  actor: {
+    login: string;
+    avatar_url: string;
+    display_login: string;
+    url: string;
+  }
+  repo: {
+    id: number;
+    name: string;
+    url: string;
+  }
   payload: {
     action: string;
     issue: {
@@ -200,11 +271,22 @@ export type IssueEvent = {
       }
     }
   }
-  created_at: string;
+  published: string;
 }
 
 export type MemberEvent = {
   type: 'MemberEvent';
+  actor: {
+    login: string;
+    avatar_url: string;
+    display_login: string;
+    url: string;
+  }
+  repo: {
+    id: number;
+    name: string;
+    url: string;
+  }
   payload: {
     action: string;
     member: {
@@ -213,22 +295,33 @@ export type MemberEvent = {
       html_url: string;
     }
   }
-  created_at: string;
+  published: string;
 }
 
 export type PublicEvent = {
   type: 'PublicEvent';
-  payload: {
-    repository: {
-      name: string;
-      html_url: string;
-    }
+  actor: {
+    login: string;
+    avatar_url: string;
+    display_login: string;
+    url: string;
   }
-  created_at: string;
+  repo: {
+    id: number;
+    name: string;
+    url: string;
+  }
+  published: string;
 }
 
 export type PullRequestEvent = {
   type: 'PullRequestEvent';
+  actor: {
+    login: string;
+    avatar_url: string;
+    display_login: string;
+    url: string;
+  }
   payload: {
     action: string;
     number: number;
@@ -242,7 +335,7 @@ export type PullRequestEvent = {
       }
     }
   }
-  created_at: string;
+  published: string;
 }
 
 export type PullRequestReviewEvent = {
@@ -259,11 +352,17 @@ export type PullRequestReviewEvent = {
       }
     }
   }
-  created_at: string;
+  published: string;
 }
 
 export type PullRequestReviewCommentEvent = {
   type: 'PullRequestReviewCommentEvent';
+  actor: {
+    login: string;
+    avatar_url: string;
+    display_login: string;
+    url: string;
+  }
   payload: {
     action: string;
     pull_request: {
@@ -275,8 +374,16 @@ export type PullRequestReviewCommentEvent = {
         html_url: string;
       }
     }
+    comment: {
+      body: string;
+      user: {
+        login: string;
+        avatar_url: string;
+        html_url: string;
+      }
+    }
   }
-  created_at: string;
+  published: string;
 }
 
 export type PushEvent = {
@@ -305,11 +412,17 @@ export type PushEvent = {
     name: string;
     url: string;
   };
-  created_at: string;
+  published: string;
 }
 
 export type ReleaseEvent = {
   type: 'ReleaseEvent';
+  actor: {
+    login: string;
+    avatar_url: string;
+    display_login: string;
+    url: string;
+  }
   payload: {
     action: string;
     release: {
@@ -329,5 +442,76 @@ export type ReleaseEvent = {
       }
     }
   }
-  created_at: string;
+  published: string;
+}
+
+export type WatchEvent = {
+  type: 'WatchEvent';
+  actor: {
+    login: string;
+    avatar_url: string;
+    display_login: string;
+    url: string;
+  }
+  payload: {
+    action: string;
+    repo: {
+      name: string;
+      url: string;
+    }
+  }
+  published: string;
+}
+
+export type PullRequestReviewThreadEvent = {
+  type: 'PullRequestReviewThreadEvent';
+  actor: {
+    login: string;
+    avatar_url: string;
+    display_login: string;
+    url: string;
+  }
+  payload: {
+    action: string;
+    pull_request: {
+      title: string;
+      html_url: string;
+      user: {
+        login: string;
+        avatar_url: string;
+        html_url: string;
+      }
+    }
+    thread: {
+      html_url: string;
+    }
+  }
+  published: string;
+}
+
+export type SponsorshipEvent = {
+  type: 'SponsorshipEvent';
+  actor: {
+    login: string;
+    avatar_url: string;
+    display_login: string;
+    url: string;
+  }
+  payload: {
+    action: string;
+    sponsorship: {
+      privacy_level: string;
+      sponsorable: {
+        login: string;
+        avatar_url: string;
+        html_url: string;
+      }
+      sponsor: {
+        login: string;
+        avatar_url: string;
+        html_url: string;
+      }
+    }
+  }
+  published: string;
 }
