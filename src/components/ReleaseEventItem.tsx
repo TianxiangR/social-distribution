@@ -7,7 +7,7 @@ import ReactMarkdown from 'react-markdown';
 function ReleaseEventItem(props: ReleaseEvent) {
 
   let content = '';
-  content += `User ${props.actor.display_login} ${props.payload.action} release [${props.payload.release.name}](${props.payload.release.html_url}) for repo [${props.payload.release.repo.name}](https://github.com/${props.payload.release.repo.name})`;
+  content += `[${props.actor.display_login}](${props.actor.html_url}) ${props.payload.action} release [${props.payload.release.name}](${props.payload.release.html_url}) for repo [${props.payload.release.repo.name}](https://github.com/${props.payload.release.repo.name})`;
 
   return (
     <>

@@ -13,7 +13,7 @@ function FollowingItem(props: FollowngItemProps) {
   return (
     <div className='following-item-container'>
       <div className='left-wrapper'>
-        <Avatar src={profileImage} sx={{width: '40px', height: '40px'}} />
+        <Avatar src={profileImage} alt={displayName} sx={{width: '40px', height: '40px'}} />
         <div className='info-container'>
           <Typography variant='body1' sx={{fontWeight: 700}}>
             {displayName}

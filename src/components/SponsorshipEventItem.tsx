@@ -7,7 +7,7 @@ import ReactMarkdown from 'react-markdown';
 function SponsorshipEventItem(props: SponsorshipEvent) {
 
   let content = '';
-  content += `User ${props.actor.display_login} created sponsorship item with sponsor ${props.payload.sponsorship.sponsor.login} and sponsorable ${props.payload.sponsorship.sponsorable.login}`;
+  content += `[${props.actor.display_login}](${props.actor.html_url}) created sponsorship item with sponsor ${props.payload.sponsorship.sponsor.login} and sponsorable ${props.payload.sponsorship.sponsorable.login}`;
 
   return (
     <>

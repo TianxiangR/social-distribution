@@ -7,7 +7,7 @@ import ReactMarkdown from 'react-markdown';
 function CommitCommentEventItem(props: CommitCommentEvent) {
 
   let content = '';
-  content += `User ${props.payload.comment.user.login} created comment "${props.payload.comment.body}" on commit [${props.payload.comment.html_url}](${props.payload.comment.html_url})`;
+  content += `[${props.payload.comment.user.login}](${props.payload.comment.user.html_url}) created comment "${props.payload.comment.body}" on commit [${props.payload.comment.html_url}](${props.payload.comment.html_url})`;
 
 
   return (

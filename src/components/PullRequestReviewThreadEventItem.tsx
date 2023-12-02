@@ -7,7 +7,7 @@ import ReactMarkdown from 'react-markdown';
 function PullRequestReviewThreadEventItem(props: PullRequestReviewThreadEvent) {
 
   let content = '';
-  content += `User ${props.actor.display_login} ${props.payload.action} the thread [${props.payload.thread.html_url}](${props.payload.thread.html_url}) on pull request [${props.payload.pull_request.title}](${props.payload.pull_request.html_url})`;
+  content += `[${props.actor.display_login}](${props.actor.html_url}) ${props.payload.action} the thread [${props.payload.thread.html_url}](${props.payload.thread.html_url}) on pull request [${props.payload.pull_request.title}](${props.payload.pull_request.html_url})`;
 
   return (
     <>

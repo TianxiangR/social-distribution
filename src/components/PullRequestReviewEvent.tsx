@@ -7,7 +7,7 @@ import ReactMarkdown from 'react-markdown';
 function PullRequestReviewEventItem(props: PullRequestReviewEvent) {
 
   let content = '';
-  content += `User ${props.payload.pull_request.user.login} ${props.payload.action} review for pull request [${props.payload.pull_request.title}](${props.payload.pull_request.html_url})`;
+  content += `[${props.payload.pull_request.user.login}](${props.payload.pull_request.user.html_url}) ${props.payload.action} review for pull request: [${props.payload.pull_request.title}](${props.payload.pull_request.html_url})`;
 
   return (
     <>

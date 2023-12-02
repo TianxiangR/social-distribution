@@ -7,7 +7,7 @@ import ReactMarkdown from 'react-markdown';
 function IssueCommentEventItem(props: IssueCommentEvent) {
 
   let content = '';
-  content += `User ${props.actor.display_login} ${props.payload.action} comment "${props.payload.comment.body}" on issue [${props.payload.issue.title}](${props.payload.issue.html_url})`;
+  content += `[${props.actor.display_login}](${props.actor.html_url}) ${props.payload.action} comment "${props.payload.comment.body}" on issue [${props.payload.issue.title}](${props.payload.issue.html_url})`;
 
   return (
     <>

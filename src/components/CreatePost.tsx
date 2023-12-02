@@ -24,6 +24,7 @@ function CreatePost(props: CreatePostProps) {
   const [preview, setPreview] = useState(false);
   const inputRef = useRef<HTMLInputElement>(null);
   const [imageDate, setImageData] = useState<string>('');
+  const [unlisted, setUnlisted] = useState(false);
   
   const handleOnChange = (setter: Dispatch<SetStateAction<string>> ) => (e: React.ChangeEvent<HTMLInputElement>) => {
     setter(e.target.value);
@@ -32,16 +33,16 @@ function CreatePost(props: CreatePostProps) {
   const handlePostClick = async (e: React.MouseEvent<HTMLElement>) => {
     e.preventDefault();
 
-    let request_body = {};
+    const contentData = contentType === 'image' ? imageDate : content;
+    const visibilityData: PostVisibility = unlisted ? 'PUBLIC' : visibility;
 
-    if (contentType === 'image')
-    {
-      request_body = {title, contentType, content: imageDate, visibility, unlisted: true};
-    }
-    else
-    {
-      request_body = {title, contentType, content, visibility};
-    }
+    const request_body = {
+      title,
+      content: contentData,
+      contentType,
+      visibility: visibilityData,
+      unlisted,
+    };
 
     if (isEditing) {
       await updatePost(defaultValue!.id, request_body as PostBase);
@@ -75,42 +76,43 @@ function CreatePost(props: CreatePostProps) {
     }
   };
 
-
+  const renderContent = () => {
+    if (contentType === 'text/markdown' && preview) {
+      return (
+        <div className='markdown-container' style={{maxWidth: (inputRef.current?.offsetWidth || 0) - 20}}>
+          <ReactMarkdown>
+            {content}
+          </ReactMarkdown>
+        </div>
+      );
+    } else if (contentType === 'image') {
+      return <input type="file" accept="image/*" onChange={handleImageSelected} />;
+    } else {
+      return (
+        <TextField
+          variant="outlined"
+          fullWidth
+          multiline
+          minRows={8}
+          value={content}
+          onChange={handleOnChange(setContent)}
+          sx={{marginTop: '10px'}}
+          data-testid="dialog-input-content"
+        />
+      );
+    }
+  };
   let contentPart = <></>;
   if (contentType === 'text/plain' || contentType === 'text/markdown')
   {
     contentPart = <>
-      {contentType === 'text/markdown' && <FormControlLabel control={<Switch checked={preview} onChange={handlePreviewChange} />} label="Preview"/>}
-      <span className="label-input-container">
-        <Typography variant="h6">
-          Content
-        </Typography>
-        { contentType === 'text/markdown' && preview ?
-        // TODO: fix the width of the markdown container
-          <div className='markdown-container' style={{maxWidth: (inputRef.current?.offsetWidth || 0) - 20}}>
-            <ReactMarkdown>
-              {content}
-            </ReactMarkdown>
-          </div>
-          :
-          <TextField
-            variant="outlined"
-            fullWidth
-            multiline
-            minRows={8}
-            value={content}
-            onChange={handleOnChange(setContent)}
-            sx={{marginTop: '10px'}}
-            data-testid="dialog-input-content"
-          />}
-      </span>
-      <SelectSingle label="Visibility" value={visibility.replaceAll('_', ' ')} options={visibilityOptions} disabled={isEditing} onChange={handleVisibilitySelectionChange}/>
+
     </>;
   }
   else if (contentType === 'image')
   {
     contentPart = <>
-      <input type="file" accept="image/*" onChange={handleImageSelected} />
+      
     </>;
   }
 
@@ -132,7 +134,15 @@ function CreatePost(props: CreatePostProps) {
         />
       </span>
       <SelectSingle label="Post Type" value={contentType} options={postTypeOptions} onChange={handlePostTypeSelectionChange}/>
-      {contentPart}
+      {contentType === 'text/markdown' && <FormControlLabel control={<Switch checked={preview} onChange={handlePreviewChange} />} label="Preview"/>}
+      <span className="label-input-container">
+        <Typography variant="h6">
+          Content
+        </Typography>
+        { renderContent() }
+      </span>
+      <FormControlLabel control={<Switch checked={unlisted} onChange={(e) => setUnlisted(e.target.checked)} />} label="Unlisted"/>
+      {unlisted || <SelectSingle label="Visibility" value={visibility.replaceAll('_', ' ')} options={visibilityOptions} disabled={isEditing} onChange={handleVisibilitySelectionChange}/>}
       <span className="button-group">
         <Button 
           variant="contained" 

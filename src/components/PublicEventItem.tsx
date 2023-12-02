@@ -7,7 +7,7 @@ import ReactMarkdown from 'react-markdown';
 function PublicEventItem(props: PublicEvent) {
 
   let content = '';
-  content += `User ${props.actor.display_login} made [${props.repo.name}](https://github.com/${props.repo.name}) public`;
+  content += `[${props.actor.display_login}](${props.actor.html_url}) made [${props.repo.name}](https://github.com/${props.repo.name}) public`;
 
   return (
     <>

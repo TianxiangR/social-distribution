@@ -7,7 +7,7 @@ import ReactMarkdown from 'react-markdown';
 function DeleteEventItem(props: DeleteEvent) {
 
   let content = '';
-  content += `User ${props.actor.display_login} deleted resource [${props.repo.name}](https://github.com/${props.repo.name})`;
+  content += `[${props.actor.display_login}](${props.actor.html_url}) deleted resource [${props.repo.name}](https://github.com/${props.repo.name})`;
 
   return (
     <>

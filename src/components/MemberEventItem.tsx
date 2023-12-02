@@ -7,7 +7,7 @@ import ReactMarkdown from 'react-markdown';
 function MemberEventItem(props: MemberEvent) {
 
   let content = '';
-  content += `User ${props.actor.display_login} ${props.payload.action} collaborator ${props.payload.member.login} to [${props.repo.name}](https://github.com/${props.repo.name})`;
+  content += `[${props.actor.display_login}](${props.actor.html_url}) ${props.payload.action} collaborator [${props.payload.member.login}](${props.payload.member.html_url}) to [${props.repo.name}](https://github.com/${props.repo.name})`;
 
   return (
     <>

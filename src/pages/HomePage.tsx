@@ -1,6 +1,6 @@
 import React, {useState, useEffect } from 'react';
 import Post from '../components/Post';
-import { PostBrief } from '../types';
+import { PostBrief, StreamEvent } from '../types';
 import { useNavigate } from 'react-router-dom';
 import { getPostList, likePost } from '../apis';
 import CreateCommentDialog from '../components/CreateCommentDialog';
@@ -63,44 +63,44 @@ function HomePage() {
   };
 
 
-  const renderPost = (item: any) => {
+  const renderPost = (item: StreamEvent, idx: number) => {
     switch (item.type) {
     case 'post':
-      return <Post {...item} onBodyClick={handleBodyClick(item.id)} onLikeIconClick={handleLikeClick(item.id)} onCommentIconClick={handleCommentClick(item.id)} onItemChanged={loadPostList} onItemDeleted={loadPostList}/>;
+      return <Post {...item} key={idx} onBodyClick={handleBodyClick(item.id)} onLikeIconClick={handleLikeClick(item.id)} onCommentIconClick={handleCommentClick(item.id)} onItemChanged={loadPostList} onItemDeleted={loadPostList}/>;
     case 'GollumEvent':
-      return <GollumEventItem {...item} />;
+      return <GollumEventItem key={idx} {...item} />;
     case 'MemberEvent':
-      return <MemberEventItem {...item} />;
+      return <MemberEventItem key={idx} {...item} />;
     case 'PullRequestEvent':
-      return <PullRequestEventItem {...item} />;
+      return <PullRequestEventItem key={idx}  {...item} />;
     case 'PullRequestReviewEvent':
-      return <PullRequestReviewEventItem {...item} />;
+      return <PullRequestReviewEventItem key={idx} {...item} />;
     case 'IssuesEvent':
-      return <IssuesEventItem {...item} />;
+      return <IssuesEventItem key={idx} {...item} />;
     case 'IssueCommentEvent':
-      return <IssueCommentEventItem {...item} />;
+      return <IssueCommentEventItem key={idx} {...item} />;
     case 'CreateEvent':
-      return <CreateEventItem {...item} />;
+      return <CreateEventItem key={idx} {...item} />;
     case 'DeleteEvent':
-      return <DeleteEventItem {...item} />;
+      return <DeleteEventItem key={idx} {...item} />;
     case 'ForkEvent':
-      return <ForkEventItem {...item} />;
+      return <ForkEventItem key={idx} {...item} />;
     case 'CommitCommentEvent':
-      return <CommitCommentEventItem {...item} />;
+      return <CommitCommentEventItem key={idx} {...item} />;
     case 'PublicEvent':
-      return <PublicEventItem {...item} />;
+      return <PublicEventItem key={idx} {...item} />;
     case 'PushEvent':
-      return <PushEventItem {...item} />;
+      return <PushEventItem key={idx} {...item} />;
     case 'SponsorshipEvent':
-      return <SponsorshipEventItem {...item} />;
+      return <SponsorshipEventItem key={idx} {...item} />;
     case 'ReleaseEvent':
-      return <ReleaseEventItem {...item} />;
+      return <ReleaseEventItem key={idx} {...item} />;
     case 'WatchEvent':
-      return <WatchEventItem {...item} />;
+      return <WatchEventItem key={idx} {...item} />;
     case 'PullRequestReviewCommentEvent':
-      return <PullRequestReviewCommentEventItem {...item} />;
+      return <PullRequestReviewCommentEventItem key={idx} {...item} />;
     case 'PullRequestReviewThreadEvent':
-      return <PullRequestReviewThreadEventItem {...item} />;
+      return <PullRequestReviewThreadEventItem key={idx} {...item} />;
     }
   };
 
@@ -108,7 +108,7 @@ function HomePage() {
     <div className='scroll-container'>
       {postItems.map((item, idx) => (
         <>
-          {renderPost(item)}
+          {renderPost(item, idx)}
         </>
       ))}
       <CreateCommentDialog open={open} onClose={() => setOpen(false)} postId={postId} onSuccess={loadPostList}/>

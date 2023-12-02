@@ -41,7 +41,7 @@ export type PostBase = {
 
 export type PostBrief = {
   id: string;
-  type: string;
+  type: 'post';
   published: string;
   is_liked: boolean;
   count: number;
@@ -126,6 +126,7 @@ export type CreateEvent = {
     avatar_url: string;
     display_login: string;
     url: string;
+    html_url: string;
   }
   repo: {
     id: number;
@@ -149,6 +150,7 @@ export type DeleteEvent = {
     avatar_url: string;
     display_login: string;
     url: string;
+    html_url: string;
   }
   repo: {
     id: number;
@@ -169,6 +171,7 @@ export type ForkEvent = {
     avatar_url: string;
     display_login: string;
     url: string;
+    html_url: string;
   }
   repo: {
     id: number;
@@ -196,6 +199,7 @@ export type GollumEvent = {
     avatar_url: string;
     display_login: string;
     url: string;
+    html_url: string;
   }
   repo: {
     id: number;
@@ -220,6 +224,7 @@ export type IssueCommentEvent = {
     avatar_url: string;
     display_login: string;
     url: string;
+    html_url: string;
   }
   payload: {
     action: string;
@@ -252,6 +257,7 @@ export type IssuesEvent = {
     avatar_url: string;
     display_login: string;
     url: string;
+    html_url: string;
   }
   repo: {
     id: number;
@@ -281,6 +287,7 @@ export type MemberEvent = {
     avatar_url: string;
     display_login: string;
     url: string;
+    html_url: string;
   }
   repo: {
     id: number;
@@ -305,6 +312,7 @@ export type PublicEvent = {
     avatar_url: string;
     display_login: string;
     url: string;
+    html_url: string;
   }
   repo: {
     id: number;
@@ -321,6 +329,7 @@ export type PullRequestEvent = {
     avatar_url: string;
     display_login: string;
     url: string;
+    html_url: string;
   }
   payload: {
     action: string;
@@ -422,6 +431,7 @@ export type ReleaseEvent = {
     avatar_url: string;
     display_login: string;
     url: string;
+    html_url: string;
   }
   payload: {
     action: string;
@@ -452,6 +462,7 @@ export type WatchEvent = {
     avatar_url: string;
     display_login: string;
     url: string;
+    html_url: string;
   }
   payload: {
     action: string;
@@ -470,6 +481,7 @@ export type PullRequestReviewThreadEvent = {
     avatar_url: string;
     display_login: string;
     url: string;
+    html_url: string;
   }
   payload: {
     action: string;
@@ -496,6 +508,7 @@ export type SponsorshipEvent = {
     avatar_url: string;
     display_login: string;
     url: string;
+    html_url: string;
   }
   payload: {
     action: string;
@@ -515,3 +528,7 @@ export type SponsorshipEvent = {
   }
   published: string;
 }
+
+export type GithubEvent = CommitCommentEvent | CreateEvent | DeleteEvent | ForkEvent | GollumEvent | IssueCommentEvent | IssuesEvent | MemberEvent | PublicEvent | PullRequestEvent | PullRequestReviewEvent | PullRequestReviewCommentEvent | PushEvent | ReleaseEvent | WatchEvent | PullRequestReviewThreadEvent | SponsorshipEvent;
+
+export type StreamEvent = GithubEvent | PostBrief

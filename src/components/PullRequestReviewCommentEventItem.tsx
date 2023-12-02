@@ -7,7 +7,7 @@ import ReactMarkdown from 'react-markdown';
 function PullRequestReviewCommentEventItem(props: PullRequestReviewCommentEvent) {
 
   let content = '';
-  content += `User ${props.payload.comment.user.login} commented "${props.payload.comment.body}" on pull request [${props.payload.pull_request.title}](${props.payload.pull_request.html_url})`;
+  content += `[${props.payload.comment.user.login}](${props.payload.comment.user.html_url}) commented "${props.payload.comment.body}" on pull request: [${props.payload.pull_request.title}](${props.payload.pull_request.html_url})`;
 
   return (
     <>

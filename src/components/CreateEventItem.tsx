@@ -8,9 +8,9 @@ function CreateEventItem(props: CreateEvent) {
 
   let content = '';
   if (props.payload.ref_type === 'repository') {
-    content += `User ${props.actor.display_login} created repository [${props.repo.name}](https://github.com/${props.repo.name})`;
+    content += `[${props.actor.display_login}](${props.actor.html_url}) created repository [${props.repo.name}](https://github.com/${props.repo.name})`;
   } else if (props.payload.ref_type === 'branch') {
-    content += `User ${props.actor.display_login} created branch [${props.payload.ref}](https://github.com/${props.repo.name}/tree/${props.payload.ref}) in [${props.repo.name}](https://github.com/${props.repo.name})`;
+    content += `[${props.actor.display_login}](${props.actor.html_url}) created branch [${props.payload.ref}](https://github.com/${props.repo.name}/tree/${props.payload.ref}) in [${props.repo.name}](https://github.com/${props.repo.name})`;
   }
 
 

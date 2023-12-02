@@ -7,7 +7,7 @@ import ReactMarkdown from 'react-markdown';
 function ForkEventItem(props: ForkEvent) {
 
   let content = '';
-  content += `User ${props.actor.display_login} forked repository [${props.repo.name}](https://github.com/${props.repo.name})`;
+  content += `[${props.actor.display_login}](${props.actor.html_url}) forked repository [${props.repo.name}](https://github.com/${props.repo.name})`;
 
   return (
     <>

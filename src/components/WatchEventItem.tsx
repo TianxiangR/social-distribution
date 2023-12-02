@@ -7,7 +7,7 @@ import ReactMarkdown from 'react-markdown';
 function WatchEventItem(props: WatchEvent) {
 
   let content = '';
-  content += `User ${props.actor.display_login} ${props.payload.action} repository [${props.payload.repo.name}](https://github.com/${props.payload.repo.name})`;
+  content += `[${props.actor.display_login}](${props.actor.html_url}) ${props.payload.action} repository [${props.payload.repo.name}](https://github.com/${props.payload.repo.name})`;
 
   return (
     <>

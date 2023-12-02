@@ -7,7 +7,7 @@ import ReactMarkdown from 'react-markdown';
 function PullRequestEventItem(props: PullRequestEvent) {
 
   let content = '';
-  content += `User ${props.actor.display_login} ${props.payload.action} pull request [${props.payload.pull_request.title}](${props.payload.pull_request.html_url})`;
+  content += `[${props.actor.display_login}](${props.actor.html_url}) ${props.payload.action} pull request: [${props.payload.pull_request.title}](${props.payload.pull_request.html_url})`;
 
   return (
     <>
