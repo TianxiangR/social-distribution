@@ -69,9 +69,11 @@ function SignUpPage() {
   const navigate = useNavigate();
   const [userName, setUserName] = useState('');
   const [password, setPassword] = useState('');
+  const [github, setGithub] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
   const [emailError, setEmailError] = useState('');
   const [passwordMatchError, setPasswordMatchError] = useState('');
+  const [profileImage, setProfileImage] = useState('');
   
   useEffect(() => {
     if (password == confirmPassword) {
@@ -94,7 +96,9 @@ function SignUpPage() {
       setPasswordMatchError('');
       const payload = {
         'username': userName,
-        'password': password
+        'password': password,
+        'github': github,
+        'profile_image': profileImage || null,
       };
 
       const response = await signup(payload);
@@ -108,6 +112,17 @@ function SignUpPage() {
     }
     else {
       alert('Please fill in all the fields!');
+    }
+  };
+
+  const handleSelectImage = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (file) {
+      const reader = new FileReader();
+      reader.onload = (e) => {
+        setProfileImage(e.target?.result as string);
+      };
+      reader.readAsDataURL(file);
     }
   };
 
@@ -130,6 +145,22 @@ function SignUpPage() {
             type="password" 
             value={confirmPassword} 
             onChange={(e) => setConfirmPassword(e.target.value)}
+          />
+        </Label>
+        <br />
+        <Label>Github URL:
+          <Input 
+            type="text" 
+            value={github} 
+            onChange={(e) => setGithub(e.target.value)}
+          />
+        </Label>
+        <br />
+        <Label>Select Profile Image:
+          <input
+            type="file" 
+            accept="image/*" 
+            onChange={handleSelectImage}
           />
         </Label>
         {passwordMatchError && <Error>{passwordMatchError}</Error>}

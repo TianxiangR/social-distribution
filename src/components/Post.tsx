@@ -6,9 +6,9 @@ import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
 import FavoriteIcon from '@mui/icons-material/Favorite';
 import IosShareIcon from '@mui/icons-material/IosShare';
 import MoreHorizIcon from '@mui/icons-material/MoreHoriz';
-import { PostBrief } from '../types';
+import { AuthorInfo, PostBrief } from '../types';
 import CreatePost from './CreatePost';
-import { deletePost } from '../apis';
+import { deletePost, sharePost } from '../apis';
 import ReactMarkDown from 'react-markdown';
 import { getTimeDiffString } from '../utils';
 import SharePostDialog from './SharePostDialog';
@@ -159,6 +159,27 @@ function Post(props: PostProps) {
     }
   };
 
+  const sharePostSubmit = async (selectedUsers: AuthorInfo[]) => {
+    const response = await sharePost({
+      targets: selectedUsers,
+      post: {
+        id,
+        title,
+        content,
+        contentType,
+        visibility,
+        unlisted,
+        image_url,
+        author,
+      }
+    });
+
+    if (response.ok)
+    {
+      setShareDialogOpen(false);
+    }
+  };
+
   const postBody = (
     <>
       <div className='post-container' onClick={handleBodyClick}>
@@ -186,6 +207,9 @@ function Post(props: PostProps) {
             </Typography>
             <Typography variant="body1">
               {' · ' + timeDiffString}
+            </Typography>
+            <Typography variant="body1">
+              {`(${visibility})`}
             </Typography>
           </span>
           <Typography variant="h5" sx={{ paddingBottom: 'px' }}>
@@ -219,7 +243,7 @@ function Post(props: PostProps) {
         onClose={() => setSnackBarOpen(false)}
         open={snackbarOpen}
       />
-      <SharePostDialog open={shareDialogOpen} onClose={() => setShareDialogOpen(false)} postId={id} />
+      <SharePostDialog open={shareDialogOpen} onClose={() => setShareDialogOpen(false)} onSubmit={sharePostSubmit} />
     </>
   );
   

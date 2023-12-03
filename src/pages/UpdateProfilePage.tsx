@@ -66,9 +66,10 @@ function UpdateProfilePage() {
   const navigate = useNavigate();
   const [github, setGithub] = useState('');
   const [username, setUserName] = useState('');
+  const [imageData, setImageData] = useState('');
   
   const handleUpdateClick = async () => {
-    const response = await updateProfile({github, username});
+    const response = await updateProfile({github, username, profile_image: imageData || null});
     if (response.ok) {
       navigate('/my-profile');
     }
@@ -80,6 +81,17 @@ function UpdateProfilePage() {
     if (response.ok) {
       setGithub(json_data.github);
       setUserName(json_data.displayName);
+    }
+  };
+
+  const handleSelectImage = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (file) {
+      const reader = new FileReader();
+      reader.onloadend = () => {
+        setImageData(reader.result as string);
+      };
+      reader.readAsDataURL(file);
     }
   };
 
@@ -104,6 +116,14 @@ function UpdateProfilePage() {
             type="text" 
             value={github} 
             onChange={(e) => setGithub(e.target.value)}
+          />
+        </Label>
+        <br />
+        <Label>Profile Image:
+          <input
+            type="file"
+            accept="image/*"
+            onChange={handleSelectImage}
           />
         </Label>
         <br />

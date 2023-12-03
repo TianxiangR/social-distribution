@@ -23,7 +23,7 @@ function CreatePost(props: CreatePostProps) {
   const visibilityOptions = ['PUBLIC', 'FRIENDS', 'PRIVATE'];
   const [preview, setPreview] = useState(false);
   const inputRef = useRef<HTMLInputElement>(null);
-  const [imageDate, setImageData] = useState<string>('');
+  const [imageData, setImageData] = useState<string>('');
   const [unlisted, setUnlisted] = useState(false);
   
   const handleOnChange = (setter: Dispatch<SetStateAction<string>> ) => (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -33,7 +33,7 @@ function CreatePost(props: CreatePostProps) {
   const handlePostClick = async (e: React.MouseEvent<HTMLElement>) => {
     e.preventDefault();
 
-    const contentData = contentType === 'image' ? imageDate : content;
+    const contentData = contentType === 'image' ? imageData : content;
     const visibilityData: PostVisibility = unlisted ? 'PUBLIC' : visibility;
 
     const request_body = {
@@ -148,7 +148,7 @@ function CreatePost(props: CreatePostProps) {
           variant="contained" 
           sx={{marginTop: '20px'}} 
           onClick={handlePostClick} 
-          disabled={title.length === 0 || contentType === 'image' && imageDate.length === 0 || contentType !== 'image' && content.length === 0}
+          disabled={title.length === 0 || contentType === 'image' && imageData.length === 0 || contentType !== 'image' && content.length === 0}
           data-testid="dialog-button-submit"
         >
           {isEditing ? 'Update' : 'Submit'}

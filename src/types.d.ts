@@ -48,10 +48,11 @@ export type PostBrief = {
   like_count: number;
   author: AuthorInfo;
   is_my_post: boolean;
+  is_foreign?: boolean;
 } & PostBase;
 
 export type PostDetail = PostBrief & {
-  commentsSrc: {
+  commentsSrc?: {
     comments: Comment[];
   }
 }

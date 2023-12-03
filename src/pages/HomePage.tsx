@@ -1,6 +1,6 @@
 import React, {useState, useEffect } from 'react';
 import Post from '../components/Post';
-import { PostBrief, StreamEvent } from '../types';
+import { PostBase, PostBrief, StreamEvent } from '../types';
 import { useNavigate } from 'react-router-dom';
 import { getPostList, likePost } from '../apis';
 import CreateCommentDialog from '../components/CreateCommentDialog';
@@ -45,8 +45,17 @@ function HomePage() {
     loadPostList();
   }, []);
 
-  const handleBodyClick = (id: string) => () => {
-    navigate(`/post/${id}`);
+  const handleBodyClick = (item: PostBrief) => () => {
+    if (item.is_foreign) {
+      const queyr = new URLSearchParams({
+        host: item.author.host,
+        author_id: item.author.id,
+      });
+      navigate(`/post/${item.id}?${queyr.toString()}`);
+    }
+    else {
+      navigate(`/post/${item.id}`);
+    }
   };
 
   const handleLikeClick = (id: string) => () => {
@@ -66,7 +75,7 @@ function HomePage() {
   const renderPost = (item: StreamEvent, idx: number) => {
     switch (item.type) {
     case 'post':
-      return <Post {...item} key={idx} onBodyClick={handleBodyClick(item.id)} onLikeIconClick={handleLikeClick(item.id)} onCommentIconClick={handleCommentClick(item.id)} onItemChanged={loadPostList} onItemDeleted={loadPostList}/>;
+      return <Post {...item} key={idx} onBodyClick={handleBodyClick(item)} onLikeIconClick={handleLikeClick(item.id)} onCommentIconClick={handleCommentClick(item.id)} onItemChanged={loadPostList} onItemDeleted={loadPostList}/>;
     case 'GollumEvent':
       return <GollumEventItem key={idx} {...item} />;
     case 'MemberEvent':

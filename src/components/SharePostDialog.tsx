@@ -3,18 +3,19 @@ import { Autocomplete, TextField, CircularProgress, Chip, Avatar } from '@mui/ma
 import { AuthorInfo } from '../types';
 import './CreatePost.css';
 import { getFollowers } from '../apis';
-import { Dialog, DialogTitle, DialogContent} from '@mui/material';
+import { Dialog, DialogTitle, DialogContent, Button} from '@mui/material';
 import UserListItem from './UserListItem';
 
 export interface SelectUserDialogProps {
-  postId: string;
   open: boolean;
+  onSubmit: (users: AuthorInfo[]) => void | Promise<void>;
   onClose: () => void;
 }
 
 function SharePostDialog(props: SelectUserDialogProps) {
   const {open, onClose} = props;
   const [followers, setFollowers] = useState<AuthorInfo[] | null>(null);
+  const [selectedUsers, setSelectedUsers] = useState<AuthorInfo[]>([]);
   const loading = followers === null;
 
   const fetchFollowers = async () => {
@@ -54,6 +55,7 @@ function SharePostDialog(props: SelectUserDialogProps) {
           filterSelectedOptions
           disableCloseOnSelect
           loading={loading}
+          onChange={(event, value) => setSelectedUsers(value)}
           renderOption={renderOption}
           renderTags={(value, getTagProps) =>
             value.map((option, index) => (
@@ -83,6 +85,14 @@ function SharePostDialog(props: SelectUserDialogProps) {
             />
           )}
         />
+        <div>
+          <Button variant='outlined' sx={{marginTop: '16px'}} onClick={() => props.onSubmit(selectedUsers)} disabled={loading || selectedUsers.length === 0}>
+            Submit
+          </Button>
+          <Button variant='outlined' sx={{marginTop: '16px'}} onClick={onClose}>
+            Cancel
+          </Button>
+        </div>
       </DialogContent>
     </Dialog>
   );

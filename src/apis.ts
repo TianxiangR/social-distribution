@@ -1,8 +1,8 @@
 
 import Cookie from 'universal-cookie';
-import { AuthorInfo, PostBase } from './types';
-// const base_url = 'http://localhost:8000';
-const base_url = 'https://cmput404-project-backend-tian-aaf1fa9b20e8.herokuapp.com';
+import { AuthorInfo, PostBase, PostBrief, PostDetail } from './types';
+const base_url = 'http://localhost:8000';
+// const base_url = 'https://cmput404-project-backend-tian-aaf1fa9b20e8.herokuapp.com';
 
 export function getTokenFromCookie() {
   const cookie = new Cookie();
@@ -65,19 +65,6 @@ export async function likePost(id: string) {
   });
 }
 
-export async function createPost(body: Omit<PostBase, 'id'>) {
-  const token = getTokenFromCookie();
-  return await fetch(base_url + '/api/posts/', {
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/json',
-      Authorization: 'Token ' + token,
-    },
-    body: JSON.stringify({ ...body}),
-  });
-}
-
-
 export async function createComment(postId: string, comment: string) {
   const token = getTokenFromCookie();
   return await fetch(base_url + '/api/posts/' + postId + '/comments/', {
@@ -99,6 +86,21 @@ export async function likeComment(postId: string, commentId: string) {
     },
   });
 }
+
+export async function createPost(body: Omit<PostBase, 'id'>) {
+  const token = getTokenFromCookie();
+  return await fetch(base_url + '/api/posts/', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+      Authorization: 'Token ' + token,
+    },
+    body: JSON.stringify({ ...body}),
+  });
+}
+
+
+
 
 export async function getFollowing() {
   const token = getTokenFromCookie();
@@ -267,6 +269,18 @@ export async function updateProfile(body: object){
     headers: {
       Authorization: 'Token ' + token,
       'Content-Type': 'application/json',
+    },
+    body: JSON.stringify(body),
+  });
+}
+
+export async function sharePost(body: {post: PostBase & {author: AuthorInfo}; targets: AuthorInfo[]}) {
+  const token = getTokenFromCookie();
+  return await fetch(base_url + '/api/share-post/', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+      Authorization: 'Token ' + token,
     },
     body: JSON.stringify(body),
   });

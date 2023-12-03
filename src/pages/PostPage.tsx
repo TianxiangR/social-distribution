@@ -1,6 +1,6 @@
 import React, { useEffect, useState, useRef } from 'react';
 import '../components/PostItem.css';
-import { useParams } from 'react-router-dom';
+import { useParams, useSearchParams } from 'react-router-dom';
 import { PostDetail } from '../types';
 import CommentItem from '../components/CommentItem';
 import Post from '../components/Post';
@@ -8,14 +8,16 @@ import { Button, IconButton, TextField, Typography } from '@mui/material';
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import './PostPage.css';
 import { useNavigate } from 'react-router-dom';
-import { createComment, likeComment, likePost } from '../apis';
-import { getPostById } from '../apis';
+import { createComment, likeComment, likePost, getPostById } from '../apis';
 import { Comment } from '../types';
 import '../global.css';
 
 
 function PostPage() {
   const { id = '-1' } = useParams();
+  const [searchParams] = useSearchParams();
+  const host = searchParams.get('host') || '';
+  const author_id = searchParams.get('author_id') || '';
   const [post, setPost] = useState<PostDetail | null>(null);
   const [comment, setComment] = useState('');
   const navigate = useNavigate();
@@ -27,6 +29,7 @@ function PostPage() {
 
   const loadPost = async () => {
     const response = await getPostById(id);
+
     const post = await response.json();
 
     if (response.ok) {
@@ -103,7 +106,8 @@ function PostPage() {
     return null;
   }
 
-  const { commentsSrc: {comments}, ...postProps } = post;
+  const { commentsSrc = { comments: []}, ...postProps } = post;
+  const { comments } = commentsSrc;
   return (
     <div className='scroll-container' ref={outerContainerRef}>
       <div className='top-bar' ref={topBarRef}>
