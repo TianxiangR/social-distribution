@@ -116,7 +116,7 @@ function UnlistedPost(props: PostProps) {
   }
   else if (contentType === 'image')
   {
-    postContent = <img src={image_url} />;
+    postContent = <img src={image_url} style={{maxWidth: '100%', height: 'auto'}}/>;
   }
 
   const handleDeleteClick = async (e: React.MouseEvent<HTMLElement>) => {
