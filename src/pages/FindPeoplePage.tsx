@@ -39,7 +39,7 @@ function FindPeoplePage() {
   };
 
   return (
-    <div>
+    <div className="find-people-container">
       <div className='search-bar-container'>
         <TextField
           label="Search"

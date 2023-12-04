@@ -1,3 +1,13 @@
 .search-bar-container {
-  margin: 10px;
+  padding: 10px 20px;
+  position: sticky;
+  top: 0;
+  background: white;
+  z-index: 1;
+  border: solid 2px #f3f6f9;
+}
+
+.find-people-container {
+  height: 100vh;
+  overflow-y: scroll;
 }

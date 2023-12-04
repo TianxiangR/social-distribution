@@ -24,9 +24,6 @@ function UnlistedPost(props: PostProps) {
     id, 
     title, 
     content, 
-    like_count, 
-    is_liked, 
-    count,
     published,
     visibility,
     contentType,
@@ -45,7 +42,7 @@ function UnlistedPost(props: PostProps) {
   const timeDiffString = getTimeDiffString(new Date(published));
   const paragraphs = content.split('\n');
   const [isEditing, setIsEditing] = useState(false);
-  const postEditDefaultValue = {id, title, content, visibility, contentType};
+  const postEditDefaultValue = {id, title, content, visibility, contentType, unlisted};
   const [snackbarOpen, setSnackBarOpen] = useState(false);
   const [shareDialogOpen, setShareDialogOpen] = useState(false);
   

@@ -24,7 +24,7 @@ function CreatePost(props: CreatePostProps) {
   const [preview, setPreview] = useState(false);
   const inputRef = useRef<HTMLInputElement>(null);
   const [imageData, setImageData] = useState<string>('');
-  const [unlisted, setUnlisted] = useState(false);
+  const [unlisted, setUnlisted] = useState(defaultValue?.unlisted || false);
   
   const handleOnChange = (setter: Dispatch<SetStateAction<string>> ) => (e: React.ChangeEvent<HTMLInputElement>) => {
     setter(e.target.value);
@@ -141,7 +141,7 @@ function CreatePost(props: CreatePostProps) {
         </Typography>
         { renderContent() }
       </span>
-      <FormControlLabel control={<Switch checked={unlisted} onChange={(e) => setUnlisted(e.target.checked)} />} label="Unlisted"/>
+      <FormControlLabel control={<Switch checked={unlisted} onChange={(e) => setUnlisted(e.target.checked)} />} label="Unlisted" disabled={isEditing}/>
       {unlisted || <SelectSingle label="Visibility" value={visibility.replaceAll('_', ' ')} options={visibilityOptions} disabled={isEditing} onChange={handleVisibilitySelectionChange}/>}
       <span className="button-group">
         <Button 
