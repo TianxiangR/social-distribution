@@ -10,7 +10,7 @@ export type Comment = {
 }
 
 export type PostVisibility = 'PUBLIC' | 'PRIVATE' | 'FRIENDS';
-export type ContentType = 'text/markdown' | 'text/plain' | 'image';
+export type ContentType = 'text/markdown' | 'text/plain' | 'image' | 'application/base64';
 
 export type AuthorInfo = {
   id: string;

@@ -124,6 +124,10 @@ function Post(props: PostProps) {
   {
     postContent = <img src={image_url} style={{maxWidth: '100%', height: 'auto'}}/>;
   }
+  else {
+    const imgSrc = 'data:' + contentType + ',' + content;
+    postContent = <img src={imgSrc} style={{maxWidth: '100%', height: 'auto'}}/>;
+  }
 
   const handleDeleteClick = async (e: React.MouseEvent<HTMLElement>) => {
     e.preventDefault();
