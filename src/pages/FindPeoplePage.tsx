@@ -1,13 +1,13 @@
 import React, { useEffect, useState} from 'react';
 import FollowingItem from '../components/FollowingItem';
 import { getUserList, makeFriendRequest } from '../apis';
-import { TextField, InputAdornment } from '@mui/material';
+import { TextField, InputAdornment, CircularProgress } from '@mui/material';
 import SearchIcon from '@mui/icons-material/Search';
 import './FindPeoplePage.css';
 import { AuthorInfo } from '../types';
 
 function FindPeoplePage() {
-  const [users, setUsers] = useState<Array<AuthorInfo>>([]);
+  const [users, setUsers] = useState<Array<AuthorInfo> | null>(null);
   const [query, setQuery] = useState('');
   const [filteredUsers, setFilteredUsers] = useState<Array<AuthorInfo>>([]);
 
@@ -30,7 +30,7 @@ function FindPeoplePage() {
   };
 
   const updateFilteredUsers = () => {
-    const filteredUsers = users.filter((user) => user.displayName.includes(query) || user.host.includes(query));
+    const filteredUsers = users?.filter((user) => user.displayName.includes(query) || user.host.includes(query)) || [];
     setFilteredUsers(filteredUsers);
   };
 
@@ -57,9 +57,12 @@ function FindPeoplePage() {
         />
       </div>
       {
-        filteredUsers.map((user) => (
+        users ? filteredUsers.map((user) => (
           <FollowingItem key={user.id} onChangeRelation={createHandleChangeRelation(user)} {...user}/>
-        ))
+        )) : 
+          <div className='loading-container'>
+            <CircularProgress />
+          </div>
       }
     </div>
   );

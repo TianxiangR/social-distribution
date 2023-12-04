@@ -5,6 +5,7 @@ import { useNavigate } from 'react-router-dom';
 import { getPostList, likePost } from '../apis';
 import CreateCommentDialog from '../components/CreateCommentDialog';
 import '../global.css';
+import { CircularProgress } from '@mui/material';
 import PushEventItem from '../components/PushEventItem';
 import GollumEventItem from '../components/GollumEventItem';
 import MemberEventItem from '../components/MemberEventItem';
@@ -22,11 +23,12 @@ import ReleaseEventItem from '../components/ReleaseEventItem';
 import WatchEventItem from '../components/WatchEventItem';
 import PullRequestReviewThreadEventItem from '../components/PullRequestReviewThreadEventItem';
 import PullRequestReviewCommentEventItem from '../components/PullRequestReviewCommentEventItem';
+import './HomePage.css';
 
 function HomePage() {
   const [open, setOpen] = useState(false);
   const [postId, setPostId] = useState('');
-  const [postItems, setPostItems] = useState<StreamEvent[]>([]);
+  const [postItems, setPostItems] = useState<StreamEvent[] | null>(null);
   const navigate = useNavigate();
 
   const loadPostList = async () => {
@@ -69,6 +71,13 @@ function HomePage() {
     setPostId(id);
     setOpen(true);
   };
+
+  if (postItems === null) 
+    return (
+      <div className='loading-container'>
+        <CircularProgress />
+      </div>
+    );
 
 
   const renderPost = (item: StreamEvent, idx: number) => {
