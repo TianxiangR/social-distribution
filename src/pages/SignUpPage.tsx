@@ -2,7 +2,7 @@
 import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
-import { signup } from '../apis';
+import { signup,  setTokenToCookie } from '../apis';
 
 const Container = styled.div`
   display: flex;
@@ -106,7 +106,7 @@ function SignUpPage() {
       const data = await response.json();
 
       if (response.status == 200) {
-        window.sessionStorage.setItem('token', data.token);
+        setTokenToCookie(data.token);
         navigate('/');
       }
     }

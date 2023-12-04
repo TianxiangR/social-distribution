@@ -46,9 +46,27 @@ export async function getPostList() {
   });
 }
 
+export async function getUnlistedPostList() {
+  const token = getTokenFromCookie();
+  return await fetch(base_url + '/api/unlisted-posts/', {
+    headers: {
+      Authorization: 'Token ' + token,
+    },
+  });
+}
+
 export async function getPostById(id: string) {
   const token = getTokenFromCookie();
   return await fetch(base_url + '/api/posts/' + id, {
+    headers: {
+      Authorization: 'Token ' + token,
+    },
+  });
+}
+
+export async function getUnlistedPostById(id: string) {
+  const token = getTokenFromCookie();
+  return await fetch(base_url + '/api/unlisted-posts/' + id, {
     headers: {
       Authorization: 'Token ' + token,
     },

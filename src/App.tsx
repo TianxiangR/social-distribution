@@ -24,6 +24,9 @@ import PersonAddIcon from '@mui/icons-material/PersonAdd';
 import { NarBarItem } from './components/NavBar';
 import FriendRequestItem from './components/FriendRequestItem';
 import FriendRequestPage from './pages/FriendRequestPage';
+import ArticleIcon from '@mui/icons-material/Article';
+import UnlistedPostPage from './pages/UnlistedPostPage';
+import UnlistedPostDetailPage from './pages/UnlistedPostDetailPage';
 
 function App() {
   const [open, setOpen] = useState(false);
@@ -36,6 +39,11 @@ function App() {
       icon: <HomeIcon />,
       label: 'Home',
       path: '/'
+    },
+    {
+      icon: <ArticleIcon />,
+      label: 'Unlisted',
+      path: '/unlisted'
     },
     {
       icon: <NotificationsIcon />,
@@ -137,6 +145,16 @@ function App() {
             <FriendRequestPage />
           </NavBarContentWrapper>
         } />
+        <Route path="/unlisted">
+          <Route index element={
+            <NavBarContentWrapper selection='FindPeople' options={navBarOptions}>
+              <UnlistedPostPage />
+            </NavBarContentWrapper>
+          } />
+          <Route path=":id" element={
+            <UnlistedPostDetailPage/>
+          } />
+        </Route>
       </Routes>
     </BrowserRouter>
   );

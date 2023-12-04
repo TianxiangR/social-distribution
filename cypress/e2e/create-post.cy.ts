@@ -70,6 +70,4 @@ describe('Post List', () => {
     postItem.get('[data-testid="button-delete-post"]').first().click();
     cy.get('.post-container').contains('Test Title').should('not.exist');
   });
-
-
 });

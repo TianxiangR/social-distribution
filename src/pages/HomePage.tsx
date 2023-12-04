@@ -1,6 +1,6 @@
 import React, {useState, useEffect } from 'react';
 import Post from '../components/Post';
-import { PostBase, PostBrief, StreamEvent } from '../types';
+import { PostBrief, StreamEvent } from '../types';
 import { useNavigate } from 'react-router-dom';
 import { getPostList, likePost } from '../apis';
 import CreateCommentDialog from '../components/CreateCommentDialog';
@@ -8,7 +8,6 @@ import '../global.css';
 import PushEventItem from '../components/PushEventItem';
 import GollumEventItem from '../components/GollumEventItem';
 import MemberEventItem from '../components/MemberEventItem';
-import { isTemplateExpression } from 'typescript';
 import PullRequestEventItem from '../components/PullRequestEventItem';
 import PullRequestReviewEventItem from '../components/PullRequestReviewEvent';
 import IssuesEventItem from '../components/IssuesEventItem';
@@ -27,13 +26,13 @@ import PullRequestReviewCommentEventItem from '../components/PullRequestReviewCo
 function HomePage() {
   const [open, setOpen] = useState(false);
   const [postId, setPostId] = useState('');
-  const [postItems, setPostItems] = useState<PostBrief[]>([]);
+  const [postItems, setPostItems] = useState<StreamEvent[]>([]);
   const navigate = useNavigate();
 
   const loadPostList = async () => {
     const response = await getPostList();
     const json_data = await response.json();
-    const posts = json_data.items as PostBrief[];
+    const posts = json_data.items as StreamEvent[];
     if (response.ok) {
       return setPostItems(posts);
     } else {

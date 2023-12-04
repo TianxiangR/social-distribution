@@ -1,10 +1,7 @@
 import React, {useState} from 'react';
 import './Post.css';
 import { Typography, Button, IconButton, Menu, MenuItem, Divider, Avatar, Snackbar } from '@mui/material';
-import ChatBubbleOutlineIcon from '@mui/icons-material/ChatBubbleOutline';
-import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
-import FavoriteIcon from '@mui/icons-material/Favorite';
-import IosShareIcon from '@mui/icons-material/IosShare';
+import ContentCopyIcon from '@mui/icons-material/ContentCopy';
 import MoreHorizIcon from '@mui/icons-material/MoreHoriz';
 import { AuthorInfo, PostBrief } from '../types';
 import CreatePost from './CreatePost';
@@ -22,7 +19,7 @@ export interface PostProps extends PostBrief {
   onItemDeleted?: () => void;
 }
 
-function Post(props: PostProps) {
+function UnlistedPost(props: PostProps) {
   const {
     id, 
     title, 
@@ -219,18 +216,8 @@ function Post(props: PostProps) {
           {postContent}
           <div className='bottom-icons-container'>
             <span className='cell-container'>
-              <Button variant='text' size='small' startIcon={<ChatBubbleOutlineIcon />} onClick={handleCommentIconClick}>
-                {count}
-              </Button>
-            </span>
-            <span className='cell-container'>
-              <Button variant='text' size='small' startIcon={is_liked ? <FavoriteIcon /> : <FavoriteBorderIcon />} onClick={is_liked ? undefined : handleLikeIconClick}>
-                {like_count}
-              </Button>
-            </span>
-            <span className='cell-container'>
               <>
-                <Button variant='text' size='small' startIcon={<IosShareIcon />} onClick={handleShareIconClick} />
+                <Button variant='text' size='small' startIcon={<ContentCopyIcon />} onClick={handleShareIconClick} />
               </>
             </span>
           </div>
@@ -254,4 +241,4 @@ function Post(props: PostProps) {
     : postBody;
 }
 
-export default Post;
+export default UnlistedPost;
