@@ -46,11 +46,6 @@ function App() {
       path: '/unlisted'
     },
     {
-      icon: <NotificationsIcon />,
-      label: 'Notification',
-      path: '/notification'
-    },
-    {
       icon: <FaceIcon />,
       label: 'Profile',
       path: '/my-profile'
