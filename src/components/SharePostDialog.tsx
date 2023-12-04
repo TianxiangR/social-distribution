@@ -85,8 +85,8 @@ function SharePostDialog(props: SelectUserDialogProps) {
             />
           )}
         />
-        <div>
-          <Button variant='outlined' sx={{marginTop: '16px'}} onClick={() => props.onSubmit(selectedUsers)} disabled={loading || selectedUsers.length === 0}>
+        <div className="button-group">
+          <Button variant='contained' sx={{marginTop: '16px'}} onClick={() => props.onSubmit(selectedUsers)} disabled={loading || selectedUsers.length === 0}>
             Submit
           </Button>
           <Button variant='outlined' sx={{marginTop: '16px'}} onClick={onClose}>
