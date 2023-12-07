@@ -18,7 +18,7 @@ export type AuthorInfo = {
   url: string;
   host: string;
   profileImage: string;
-  github: string;
+  github: string | null;
   is_following: boolean;
 }
 

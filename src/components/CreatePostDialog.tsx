@@ -12,6 +12,7 @@ function CreatePostDialog(props: CreatePostDialogProps) {
   const {open, onClose} = props;
 
   const onSubmitted = () => {
+    console.log('submitted');
     onClose();
     window.location.reload();
   };
@@ -22,7 +23,7 @@ function CreatePostDialog(props: CreatePostDialogProps) {
   
 
   return (
-    <Dialog open={open} onClose={onClose} fullWidth maxWidth="lg">
+    <Dialog open={open} onClose={onClose} fullWidth maxWidth="lg" data-testid="create-post-dialog">
       <DialogTitle>
         Create Post
       </DialogTitle>

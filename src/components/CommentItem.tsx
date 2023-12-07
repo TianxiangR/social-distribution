@@ -50,7 +50,13 @@ function CommentItem(props: CommentItemProps) {
             </Typography>);
         })}
         <div className='bottom-icons-container'>
-          <Button variant='text' size='small' startIcon={is_liked ? <FavoriteIcon /> : <FavoriteBorderIcon />} onClick={is_liked ? undefined : onLikeClick}>
+          <Button 
+            variant='text' 
+            size='small' 
+            startIcon={is_liked ? <FavoriteIcon /> : <FavoriteBorderIcon />} 
+            onClick={is_liked ? undefined : onLikeClick}
+            data-testid='comment-like-button'
+          >
             {like_count}
           </Button>
         </div>
