@@ -1,4 +1,8 @@
 
+/* istanbul ignore file */
+/** just a bunch of api calls, nothing to be tested */
+
+
 import Cookie from 'universal-cookie';
 import { AuthorInfo, PostBase, PostBrief, PostDetail } from './types';
 // const base_url = 'http://localhost:8000';

@@ -203,7 +203,7 @@ function Post(props: PostProps) {
           </Menu>
         </div>
         }
-        <Avatar src={author.profileImage} alt={author.displayName}  sx={{width: '40px', height: '40px'}} />
+        <Avatar src={author.profileImage || undefined} alt={author.displayName}  sx={{width: '40px', height: '40px'}} />
         <div className='content-container'>
           <span style={{ display: 'flex', flexDirection: 'row', gap: '2px' }}>
             <Typography variant="body1" sx={{ fontWeight: 700 }}>

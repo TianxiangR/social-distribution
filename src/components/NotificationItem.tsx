@@ -1,3 +1,5 @@
+/* istanbul ignore file */
+/** This file is not being used, we gave up this feature */
 import React from 'react';
 import './NotificationItem.css';
 import { Typography, Avatar } from '@mui/material';

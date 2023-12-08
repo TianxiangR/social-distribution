@@ -1,4 +1,5 @@
-// needs some finsihing
+/* istanbul ignore file */
+/** This file is not being used, we gave up this feature */
 import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';

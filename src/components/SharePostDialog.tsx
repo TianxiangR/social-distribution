@@ -49,7 +49,6 @@ function SharePostDialog(props: SelectUserDialogProps) {
       <DialogContent sx={{marginTop: '16px', overflow: 'visible'}}>
         <Autocomplete
           multiple
-          id="tags-outlined"
           options={followers || []}
           getOptionLabel={(option) => option.displayName}
           filterSelectedOptions
@@ -62,7 +61,7 @@ function SharePostDialog(props: SelectUserDialogProps) {
               // eslint-disable-next-line react/jsx-key
               <Chip
                 variant="outlined"
-                avatar={<Avatar src={option.profileImage} alt={option.displayName}/>}
+                avatar={<Avatar src={option.profileImage || undefined} alt={option.displayName}/>}
                 label={option.displayName}
                 {...getTagProps({ index })}
               />

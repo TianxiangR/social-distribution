@@ -19,7 +19,7 @@ function CommentItem(props: CommentItemProps) {
 
   return (
     <div className='comment-item-container' >
-      <Avatar src={author.profileImage} sx={{width: '40px', height: '40px'}} />
+      <Avatar src={author.profileImage || undefined} sx={{width: '40px', height: '40px'}} />
       {/* <div className='avatar'>
         <img src={author.profileImage} />
       </div> */}

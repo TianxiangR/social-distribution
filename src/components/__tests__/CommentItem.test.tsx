@@ -9,7 +9,7 @@ import {render, waitFor} from '@testing-library/react';
 describe('CommentItem', () => {
   const comment: Comment = {
     id: '1bb057c9-ad51-4aec-80bf-c727de26eb41',
-    comment: 'This is a comment',
+    comment: 'This is a comment\nThis is a comment',
     author: {
       id: '6fe453ec-f11a-4cf3-92e2-e2813e22a2ee',
       displayName: 'Test User',
@@ -25,8 +25,8 @@ describe('CommentItem', () => {
   };
 
   it('renders comment', () => {
-    const { getByText } = render(<CommentItem {...comment} />);
-    expect(getByText('This is a comment')).toBeInTheDocument();
+    const { queryAllByText } = render(<CommentItem {...comment} />);
+    expect(queryAllByText('This is a comment')).toHaveLength(2);
   });
 
   it('like button invokes onLikeClicked', () => {

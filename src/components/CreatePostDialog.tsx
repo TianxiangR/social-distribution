@@ -12,7 +12,6 @@ function CreatePostDialog(props: CreatePostDialogProps) {
   const {open, onClose} = props;
 
   const onSubmitted = () => {
-    console.log('submitted');
     onClose();
     window.location.reload();
   };

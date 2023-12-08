@@ -8,7 +8,7 @@ function UserListItem(props: AuthorInfo) {
   const { displayName, host, profileImage } = props;
   return (
     <div className="user-list-item-container">
-      <Avatar src={profileImage} alt={displayName} sx={{width: '40px', height: '40px'}} />
+      <Avatar src={profileImage || undefined} alt={displayName} sx={{width: '40px', height: '40px'}} />
       <Typography variant='body1' sx={{fontWeight: 700}}>
         {displayName}
       </Typography>

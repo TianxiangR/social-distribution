@@ -1,3 +1,5 @@
+import { type } from 'os';
+
 export type PostDetailWithComments = PostBrief & { comments: Comment[] };
 
 export type Comment = {
@@ -7,6 +9,7 @@ export type Comment = {
   published: string;
   is_liked: boolean;
   like_count: number;
+  type: 'comment';
 }
 
 export type PostVisibility = 'PUBLIC' | 'PRIVATE' | 'FRIENDS';
@@ -17,9 +20,10 @@ export type AuthorInfo = {
   displayName: string;
   url: string;
   host: string;
-  profileImage: string;
+  profileImage: string | null;
   github: string | null;
   is_following: boolean;
+  type: 'author';
 }
 
 export type FriendRequest = {
