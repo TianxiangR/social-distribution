@@ -11,6 +11,7 @@ on:
 
 jobs:
   run-jest-tests:
+    permissions: write-all
     name: Jest Tests
     runs-on: ubuntu-latest
 
