@@ -42,7 +42,7 @@ const ProfilePage = () => {
         </Button>
       </div>
       <div className='profile-container'>
-        <Avatar src={profileImage} sx={{width: '100px', height: '100px', border: '2px solid black'}} />
+        <Avatar src={profileImage || undefined} sx={{width: '100px', height: '100px', border: '2px solid black'}} />
         <Typography variant='h5' sx={{fontWeight: 700}}>
           {displayName}
         </Typography>

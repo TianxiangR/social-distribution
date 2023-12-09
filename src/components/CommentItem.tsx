@@ -19,7 +19,7 @@ function CommentItem(props: CommentItemProps) {
 
   return (
     <div className='comment-item-container' >
-      <Avatar src={author.profileImage} sx={{width: '40px', height: '40px'}} />
+      <Avatar src={author.profileImage || undefined} sx={{width: '40px', height: '40px'}} />
       {/* <div className='avatar'>
         <img src={author.profileImage} />
       </div> */}
@@ -50,7 +50,13 @@ function CommentItem(props: CommentItemProps) {
             </Typography>);
         })}
         <div className='bottom-icons-container'>
-          <Button variant='text' size='small' startIcon={is_liked ? <FavoriteIcon /> : <FavoriteBorderIcon />} onClick={is_liked ? undefined : onLikeClick}>
+          <Button 
+            variant='text' 
+            size='small' 
+            startIcon={is_liked ? <FavoriteIcon /> : <FavoriteBorderIcon />} 
+            onClick={is_liked ? undefined : onLikeClick}
+            data-testid='comment-like-button'
+          >
             {like_count}
           </Button>
         </div>

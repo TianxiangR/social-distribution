@@ -7,6 +7,7 @@ export interface SelectSingleProps {
   value: string;
   onChange?: (e: SelectChangeEvent) => void;
   disabled?: boolean;
+  'data-testid'?: string;
 }
 
 function SelectSingle(props: SelectSingleProps) {
@@ -23,7 +24,9 @@ function SelectSingle(props: SelectSingleProps) {
       >
         {
           options.map((item, idx) => (
-            <MenuItem key={idx} value={item}>{item}</MenuItem>
+            <MenuItem key={idx} value={item}>
+              {item}
+            </MenuItem>
           ))
         }
       </MuiSelect>

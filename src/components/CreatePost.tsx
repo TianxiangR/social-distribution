@@ -5,6 +5,7 @@ import SelectSingle from './SelectSingle';
 import ReactMarkdown from 'react-markdown';
 import './CreatePost.css';
 import { createPost, updatePost } from '../apis';
+import { request } from 'http';
 
 export interface CreatePostProps {
   onSubmitted: () => void;
@@ -97,7 +98,9 @@ function CreatePost(props: CreatePostProps) {
           value={content}
           onChange={handleOnChange(setContent)}
           sx={{marginTop: '10px'}}
-          data-testid="dialog-input-content"
+          inputProps={{
+            'data-testid': 'create-post-content-input'
+          }}
         />
       );
     }
@@ -129,11 +132,15 @@ function CreatePost(props: CreatePostProps) {
           value={title}
           onChange={handleOnChange(setTitle)}
           sx={{marginTop: '10px'}}
-          data-testid="dialog-input-title"
           inputRef={inputRef}
+          inputProps={
+            {
+              'data-testid': 'create-post-title-input'
+            }
+          }
         />
       </span>
-      <SelectSingle label="Post Type" value={contentType} options={postTypeOptions} onChange={handlePostTypeSelectionChange}/>
+      <SelectSingle label="Post Type" value={contentType} options={postTypeOptions} onChange={handlePostTypeSelectionChange} data-testid="create-post-select-type" />
       {contentType === 'text/markdown' && <FormControlLabel control={<Switch checked={preview} onChange={handlePreviewChange} />} label="Preview"/>}
       <span className="label-input-container">
         <Typography variant="h6">
@@ -149,7 +156,7 @@ function CreatePost(props: CreatePostProps) {
           sx={{marginTop: '20px'}} 
           onClick={handlePostClick} 
           disabled={title.length === 0 || contentType === 'image' && imageData.length === 0 || contentType !== 'image' && content.length === 0}
-          data-testid="dialog-button-submit"
+          data-testid="create-post-submit"
         >
           {isEditing ? 'Update' : 'Submit'}
         </Button>
@@ -158,6 +165,7 @@ function CreatePost(props: CreatePostProps) {
           sx={{marginTop: '20px'}} 
           color="info"
           onClick={onCancel}
+          data-testid="create-post-cancel"
         >
           Cancel
         </Button>

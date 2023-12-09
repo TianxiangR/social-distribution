@@ -27,7 +27,7 @@ function FriendRequestItem(props: FriendRequestItemProps) {
   return (
     <div className='following-item-container'>
       <div className='left-wrapper'>
-        <Avatar src={profileImage} sx={{width: '40px', height: '40px'}} />
+        <Avatar src={profileImage || undefined} sx={{width: '40px', height: '40px'}} />
         <div className='info-container'>
           <Typography variant='body1' sx={{fontWeight: 700}}>
             {displayName}
@@ -39,10 +39,10 @@ function FriendRequestItem(props: FriendRequestItemProps) {
       </div>
       <div className='right-wrapper'>
         <div className='button-container'>
-          <IconButton size="small" color="success" onClick={handleAcceptClick}>
+          <IconButton size="small" color="success" onClick={handleAcceptClick} data-testid='friend-request-accept-button'>
             <CheckCircleIcon sx={{height: '30px', width: '30px'}}/>
           </IconButton>
-          <IconButton size="small" color="error" onClick={handleRejectClick}>
+          <IconButton size="small" color="error" onClick={handleRejectClick} data-testid='friend-request-reject-button'>
             <CancelIcon  sx={{height: '30px', width: '30px'}}/>
           </IconButton>
         </div>
